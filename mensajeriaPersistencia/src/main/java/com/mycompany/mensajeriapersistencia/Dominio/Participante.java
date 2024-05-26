@@ -16,7 +16,7 @@ package com.mycompany.mensajeriapersistencia.Dominio;
  *
  * @author Jose Alan Manjarrez Ontiveros 228982
  */
-public class Participantes {
+public class Participante {
 
     private int idParticipantes;
     private int idUsuario;
@@ -25,7 +25,7 @@ public class Participantes {
     /**
      * Constructor por defecto de la clase Participantes.
      */
-    public Participantes() {
+    public Participante() {
     }
 
     /**
@@ -35,7 +35,7 @@ public class Participantes {
      * @param idUsuario el identificador del usuario
      * @param idChat el identificador del chat
      */
-    public Participantes(int idUsuario, int idChat) {
+    public Participante(int idUsuario, int idChat) {
         this.idUsuario = idUsuario;
         this.idChat = idChat;
     }
@@ -48,7 +48,7 @@ public class Participantes {
      * @param idUsuario el identificador del usuario
      * @param idChat el identificador del chat
      */
-    public Participantes(int idParticipantes, int idUsuario, int idChat) {
+    public Participante(int idParticipantes, int idUsuario, int idChat) {
         this.idParticipantes = idParticipantes;
         this.idUsuario = idUsuario;
         this.idChat = idChat;
@@ -109,10 +109,10 @@ public class Participantes {
     }
 
     /**
-     * Devuelve una representación de cadena del objeto Participantes.
+     * Devuelve una representación de cadena del objeto Participante.
      *
-     * @return una cadena que representa el objeto Participantes, que incluye
-     * todos los atributos
+     * @return una cadena que representa el objeto Participante, que incluye
+ todos los atributos
      */
     @Override
     public String toString() {

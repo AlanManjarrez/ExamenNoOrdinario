@@ -4,10 +4,12 @@ import com.mycompany.mensajeriapersistencia.Conexion.IConexion;
 import com.mycompany.mensajeriapersistencia.DAOS.ChatDAO;
 import com.mycompany.mensajeriapersistencia.DAOS.DireccionDAO;
 import com.mycompany.mensajeriapersistencia.DAOS.MensajeDAO;
+import com.mycompany.mensajeriapersistencia.DAOS.ParticipanteDAO;
 import com.mycompany.mensajeriapersistencia.DAOS.UsuarioDAO;
 import com.mycompany.mensajeriapersistencia.Dominio.Chat;
 import com.mycompany.mensajeriapersistencia.Dominio.Direccion;
 import com.mycompany.mensajeriapersistencia.Dominio.Mensaje;
+import com.mycompany.mensajeriapersistencia.Dominio.Participante;
 import com.mycompany.mensajeriapersistencia.Dominio.Usuario;
 import com.mycompany.mensajeriapersistencia.PersistenciaException.PersistenciaException;
 
@@ -51,6 +53,14 @@ public class MensajeriaPersistencia {
         //mensajeDAO.editarMensaje(mensaje);
         //mensajeDAO.eliminarMensaje(3);
         System.out.println(mensajeDAO.consultarMensaje("como"));
+        
+        Participante participante = new Participante(5,2, 1);
+        ParticipanteDAO participanteDAO = new ParticipanteDAO();
+        
+        //participanteDAO.agregarParticipante(participante);
+        //participanteDAO.actualizarParticipante(participante);
+        //participanteDAO.eliminarParticipante(5);
+        System.out.println(participanteDAO.consultarParticipante(2));
         
     }
 }
