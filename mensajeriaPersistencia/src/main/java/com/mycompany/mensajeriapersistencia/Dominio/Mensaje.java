@@ -73,6 +73,34 @@ public class Mensaje {
     }
 
     /**
+     * Constructor de la clase Mensaje con el identificador del mensaje y el
+     * texto del mensaje
+     *
+     * @param idMensaje el identificador del mensaje
+     * @param texto el texto del mensaje
+     */
+    public Mensaje(int idMensaje, String texto) {
+        this.idMensaje = idMensaje;
+        this.texto = texto;
+    }
+       /**
+     * Constructor de la clase Mensaje con el identificador del mensaje, el
+     * texto del mensaje, la fecha y hora de registro y la URL de una imagen
+     * asociada.
+     *
+     * @param idMensaje el identificador del mensaje
+     * @param texto el texto del mensaje
+     * @param fechaHoraRegistro la fecha y hora de registro del mensaje
+     * @param imagenMensaje la URL de una imagen asociada al mensaje
+     */
+    public Mensaje(int idMensaje, String texto, String fechaHoraRegistro, String imagenMensaje) {
+        this.idMensaje = idMensaje;
+        this.texto = texto;
+        this.fechaHoraRegistro = fechaHoraRegistro;
+        this.imagenMensaje = imagenMensaje;
+    }
+
+    /**
      * Obtiene el identificador del mensaje.
      *
      * @return el identificador del mensaje

@@ -3,9 +3,11 @@ package com.mycompany.mensajeriapersistencia;
 import com.mycompany.mensajeriapersistencia.Conexion.IConexion;
 import com.mycompany.mensajeriapersistencia.DAOS.ChatDAO;
 import com.mycompany.mensajeriapersistencia.DAOS.DireccionDAO;
+import com.mycompany.mensajeriapersistencia.DAOS.MensajeDAO;
 import com.mycompany.mensajeriapersistencia.DAOS.UsuarioDAO;
 import com.mycompany.mensajeriapersistencia.Dominio.Chat;
 import com.mycompany.mensajeriapersistencia.Dominio.Direccion;
+import com.mycompany.mensajeriapersistencia.Dominio.Mensaje;
 import com.mycompany.mensajeriapersistencia.Dominio.Usuario;
 import com.mycompany.mensajeriapersistencia.PersistenciaException.PersistenciaException;
 
@@ -41,5 +43,14 @@ public class MensajeriaPersistencia {
         //chatDAO.editarChat(chat);
         //chatDAO.eliminarChat(5);
         System.out.println(chatDAO.consultarChat(1));
+        
+        Mensaje mensaje = new Mensaje(3,"COMO VASSSS", "2024-5-26 17:58:24", "imagen.png", 3, 3);
+        MensajeDAO mensajeDAO = new MensajeDAO();
+        
+        //mensajeDAO.agregarMensaje(mensaje);
+        //mensajeDAO.editarMensaje(mensaje);
+        //mensajeDAO.eliminarMensaje(3);
+        System.out.println(mensajeDAO.consultarMensaje("como"));
+        
     }
 }

@@ -115,7 +115,7 @@ public class ChatDAO implements IChatDAO {
             stmt.setInt(1, idChat);
 
             int registros = stmt.executeUpdate();
-            LOG.log(Level.INFO, "Se eliminó con éxito {0} registros", registros);
+            LOG.log(Level.INFO, "Se eliminó con éxito {0}", registros);
 
             return null;
         } catch (Exception e) {
