@@ -5,6 +5,8 @@
 
 package com.mycompany.mensajeriapresentacion;
 
+import com.mycompany.mensajeriapresentacion.Presentacion.FrmIniciarSesion;
+
 /**
  *
  * @author uirtis
@@ -12,6 +14,7 @@ package com.mycompany.mensajeriapresentacion;
 public class MensajeriaPresentacion {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        FrmIniciarSesion frmIniciarSesion = new FrmIniciarSesion();
+        frmIniciarSesion.setVisible(true);
     }
 }
