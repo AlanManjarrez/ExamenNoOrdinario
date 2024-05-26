@@ -20,18 +20,40 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Clase que implementa la interfaz IParticipanteDAO y proporciona la lógica
+ * para interactuar con la capa de persistencia de datos para la entidad
+ * Participante en el sistema.
  *
- * @author uirtis
+ * Esta clase se encarga de realizar operaciones como agregar, actualizar,
+ * eliminar y consultar participantes en la base de datos. Utiliza una instancia
+ * de la interfaz IConexion para establecer y manejar la conexión con la base de
+ * datos.
+ *
+ * Los errores relacionados con la persistencia de datos son registrados
+ * utilizando un {@link Logger} para facilitar el seguimiento y la depuración.
+ *
+ * @autor Jose Alan Manjarrez Ontiveros 228982
  */
 public class ParticipanteDAO implements IParticipanteDAO {
 
     IConexion conexion;
     private static final Logger LOG = Logger.getLogger(Usuario.class.getName());
 
+    /**
+     * Constructor por defecto de la clase ParticipanteDAO.
+     */
     public ParticipanteDAO() {
         this.conexion = new Conexion();
     }
 
+    /**
+     * Agrega un nuevo participante al sistema.
+     *
+     * @param participante el participante a ser agregado
+     * @return el participante agregado
+     * @throws PersistenciaException si ocurre un error durante la operación de
+     * persistencia
+     */
     @Override
     public Participante agregarParticipante(Participante participante) throws PersistenciaException {
         try ( Connection con = this.conexion.crearConexion();  CallableStatement conn = con.prepareCall("{call agregar_participante(?,?)}")) {
@@ -60,6 +82,14 @@ public class ParticipanteDAO implements IParticipanteDAO {
         }
     }
 
+    /**
+     * Actualiza los datos de un participante existente en el sistema.
+     *
+     * @param participante el participante con los datos actualizados
+     * @return el participante actualizado
+     * @throws PersistenciaException si ocurre un error durante la operación de
+     * persistencia
+     */
     @Override
     public Participante actualizarParticipante(Participante participante) throws PersistenciaException {
         try ( Connection con = this.conexion.crearConexion();  CallableStatement conn = con.prepareCall("{call actualizar_participante(?,?,?)}")) {
@@ -83,6 +113,14 @@ public class ParticipanteDAO implements IParticipanteDAO {
         }
     }
 
+    /**
+     * Elimina un participante del sistema utilizando su identificador.
+     *
+     * @param idParticipante el identificador del participante a ser eliminado
+     * @return el participante eliminado
+     * @throws PersistenciaException si ocurre un error durante la operación de
+     * persistencia
+     */
     @Override
     public Participante eliminarParticipante(int idParticipante) throws PersistenciaException {
         try ( Connection con = this.conexion.crearConexion();  CallableStatement stmt = con.prepareCall("{call eliminar_participante(?)}")) {
@@ -99,6 +137,14 @@ public class ParticipanteDAO implements IParticipanteDAO {
         }
     }
 
+    /**
+     * Consulta un participante en el sistema utilizando su identificador.
+     *
+     * @param idParticipante el identificador del participante a ser consultado
+     * @return una lista de participantes que coinciden con el identificador
+     * @throws PersistenciaException si ocurre un error durante la operación de
+     * persistencia
+     */
     @Override
     public List<Participante> consultarParticipante(int idParticipante) throws PersistenciaException {
         List<Participante> participantes = new ArrayList<>();
