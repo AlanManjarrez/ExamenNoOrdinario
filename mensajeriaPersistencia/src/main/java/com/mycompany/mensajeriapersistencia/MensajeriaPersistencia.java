@@ -1,8 +1,10 @@
 package com.mycompany.mensajeriapersistencia;
 
 import com.mycompany.mensajeriapersistencia.Conexion.IConexion;
+import com.mycompany.mensajeriapersistencia.DAOS.ChatDAO;
 import com.mycompany.mensajeriapersistencia.DAOS.DireccionDAO;
 import com.mycompany.mensajeriapersistencia.DAOS.UsuarioDAO;
+import com.mycompany.mensajeriapersistencia.Dominio.Chat;
 import com.mycompany.mensajeriapersistencia.Dominio.Direccion;
 import com.mycompany.mensajeriapersistencia.Dominio.Usuario;
 import com.mycompany.mensajeriapersistencia.PersistenciaException.PersistenciaException;
@@ -31,5 +33,13 @@ public class MensajeriaPersistencia {
         //direccionDAO.agregarDireccion(direccion);
         //direccionDAO.actualizarDireccion(direccion);
         System.out.println(direccionDAO.consultarDireccion(7));
+        
+        Chat chat = new Chat(5,"ernesto_torres");
+        ChatDAO chatDAO = new ChatDAO();
+        
+        //chatDAO.agregarChat(chat);
+        //chatDAO.editarChat(chat);
+        //chatDAO.eliminarChat(5);
+        System.out.println(chatDAO.consultarChat(1));
     }
 }
