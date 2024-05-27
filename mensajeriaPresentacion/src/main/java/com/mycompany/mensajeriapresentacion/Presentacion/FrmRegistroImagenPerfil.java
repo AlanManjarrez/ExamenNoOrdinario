@@ -58,13 +58,14 @@ public class FrmRegistroImagenPerfil extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Registrar Imagen De Perfil");
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel2.setText("Imagen Perfil");
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel2.setText("Imagen Perfil");
 
         btnSiguiente.setText("Siguiente");
         btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
@@ -130,10 +131,10 @@ public class FrmRegistroImagenPerfil extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 153, 153));
 
-        jLabel9.setText("Juatsapp");
         jLabel9.setBackground(new java.awt.Color(255, 255, 255));
         jLabel9.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Juatsapp");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

@@ -33,6 +33,9 @@ public class UsuarioBO implements IUsuarioBO {
     public Usuario convertirEntidadUsuario(UsuarioDTO usuarioDTO) {
         Usuario usuario = new Usuario(usuarioDTO.getTelefono(), usuarioDTO.getContrasena(),
                 usuarioDTO.getSexo(), usuarioDTO.getFechaNacimiento(), usuarioDTO.getImagenPerfil());
+        if (usuarioDTO.getIdUsuario() > 0) {
+            usuario.setIdUsuario(usuarioDTO.getIdUsuario());
+        }
         return usuario;
     }
 
@@ -49,6 +52,9 @@ public class UsuarioBO implements IUsuarioBO {
 
     public Direccion convertirEntidadDireccion(DireccionDTO direccionDTO) {
         Direccion direccion = new Direccion(direccionDTO.getCalle(), direccionDTO.getNumero(), direccionDTO.getCodigoPostal());
+        if (direccionDTO.getIdUsuario() > 0) {
+            direccion.setIdUsuario(direccionDTO.getIdUsuario());
+        }
         return direccion;
     }
 
@@ -57,6 +63,9 @@ public class UsuarioBO implements IUsuarioBO {
         direccionDTO.setCalle(direccion.getCalle());
         direccionDTO.setNumero(direccion.getNumero());
         direccionDTO.setCodigoPostal(direccion.getCodigoPostal());
+        if (direccion.getIdUsuario() > 0) {
+            direccionDTO.setIdUsuario(direccion.getIdUsuario());
+        }
         return direccionDTO;
     }
 
@@ -78,12 +87,19 @@ public class UsuarioBO implements IUsuarioBO {
     public List<UsuarioDTO> consultarUsuarioTelefono(String telefono) throws Exception {
         List<Usuario> usuarios = usuario.consultarUsuarioTelefono(telefono);
         List<UsuarioDTO> usuariosDTO = new ArrayList<>();
-        for (Usuario usuario: usuarios) {
+        for (Usuario usuario : usuarios) {
             usuariosDTO.add(convertirDTOUsuario(usuario));
         }
         return usuariosDTO;
     }
-    
-   
+
+    @Override
+    public UsuarioDTO actualizarUsuario(UsuarioNuevoDTO usuarioNuevo) throws Exception {
+        Usuario usuarioCreado = usuario.actualizarUsuario(convertirEntidadUsuario(usuarioNuevo.getUsuarioDTO()));
+        Direccion direccionConvertida = convertirEntidadDireccion(usuarioNuevo.getDireccionDTO());
+        direccionConvertida.setIdUsuario(usuarioCreado.getIdUsuario());
+        direccion.actualizarDireccion(direccionConvertida);
+        return convertirDTOUsuario(usuarioCreado);
+    }
 
 }

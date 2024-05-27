@@ -115,6 +115,7 @@ public class FrmCrearChat extends javax.swing.JFrame {
         txtTelefono = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Crear Chat");
 
         jPanel1.setBackground(new java.awt.Color(255, 153, 153));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -146,7 +147,7 @@ public class FrmCrearChat extends javax.swing.JFrame {
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel2.setText("Chats");
+        jLabel2.setText("Crear Chats");
 
         btnCrearChat.setText("Crear Chat");
         btnCrearChat.addActionListener(new java.awt.event.ActionListener() {

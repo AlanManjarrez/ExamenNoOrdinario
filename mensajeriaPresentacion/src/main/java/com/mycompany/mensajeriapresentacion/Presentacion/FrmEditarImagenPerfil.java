@@ -4,17 +4,56 @@
  */
 package com.mycompany.mensajeriapresentacion.Presentacion;
 
+import com.mycompany.mensajerianegocio.BO.IUsuarioBO;
+import com.mycompany.mensajerianegocio.BO.UsuarioBO;
+import com.mycompany.mensajerianegocio.DTOS.UsuarioDTO;
+import com.mycompany.mensajerianegocio.DTOS.UsuarioNuevoDTO;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author uirtis
  */
 public class FrmEditarImagenPerfil extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FrmIniciarSesion
-     */
-    public FrmEditarImagenPerfil() {
+    private UsuarioNuevoDTO usuarioNuevo;
+    private byte[] imageBytes;
+    private IUsuarioBO usuarioBO;
+    private UsuarioDTO usuarioDTO;
+
+   
+    public FrmEditarImagenPerfil(UsuarioNuevoDTO usuarioNuevoDTO) {
+        this.usuarioNuevo = usuarioNuevoDTO;
+        this.usuarioDTO = usuarioNuevo.getUsuarioDTO();
+        this.usuarioBO = new UsuarioBO();
         initComponents();
+        imageBytes = usuarioDTO.getImagenPerfil();
+        InputStream inputStream = new ByteArrayInputStream(usuarioDTO.getImagenPerfil());
+        BufferedImage bufferedImage = null;
+        try {
+            bufferedImage = ImageIO.read(inputStream);
+        } catch (IOException ex) {
+            Logger.getLogger(FrmEditarImagenPerfil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ImageIcon mIcono = null;
+        if (bufferedImage != null) {
+            mIcono = new ImageIcon(bufferedImage.getScaledInstance(200, 200, BufferedImage.SCALE_SMOOTH));
+            labelImagen.setIcon(mIcono);
+        }
+
     }
 
     /**
@@ -30,11 +69,13 @@ public class FrmEditarImagenPerfil extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnSiguiente = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        labelImagen = new javax.swing.JLabel();
+        btnSeleccionar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Editar Imagen Perfil");
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -57,7 +98,14 @@ public class FrmEditarImagenPerfil extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/11820363.png"))); // NOI18N
+        labelImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/11820363.png"))); // NOI18N
+
+        btnSeleccionar.setText("Seleccionar");
+        btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeleccionarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -73,11 +121,15 @@ public class FrmEditarImagenPerfil extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(96, 96, 96)
-                        .addComponent(jLabel1))
+                        .addComponent(labelImagen))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(80, 80, 80)
                         .addComponent(jLabel2)))
                 .addContainerGap(85, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSeleccionar)
+                .addGap(158, 158, 158))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -85,8 +137,10 @@ public class FrmEditarImagenPerfil extends javax.swing.JFrame {
                 .addGap(42, 42, 42)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addComponent(labelImagen)
+                .addGap(18, 18, 18)
+                .addComponent(btnSeleccionar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnVolver)
                     .addComponent(btnSiguiente))
@@ -137,61 +191,108 @@ public class FrmEditarImagenPerfil extends javax.swing.JFrame {
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
+        FrmEditarDireccion frmEditarDireccion = new FrmEditarDireccion(usuarioNuevo);
+        frmEditarDireccion.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         // TODO add your handling code here:
+        try {
+            usuarioNuevo.getUsuarioDTO().setImagenPerfil(imageBytes);
+            System.out.println(usuarioNuevo.getUsuarioDTO().getIdUsuario());
+            usuarioBO.actualizarUsuario(usuarioNuevo);
+        } catch (Exception ex) {
+            Logger.getLogger(FrmRegistroImagenPerfil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        FrmConfiguracion frmConfiguracion = new FrmConfiguracion(usuarioDTO);
+        frmConfiguracion.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmEditarImagenPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmEditarImagenPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmEditarImagenPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmEditarImagenPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+    private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
+        // TODO add your handling code here:
+        JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(null);
+        File file = chooser.getSelectedFile();
+        if (file != null) {
+            try {
+                BufferedImage image = ImageIO.read(file);
+                int targetWidth = 200;
+                int targetHeight = 200;
+                BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+                Graphics2D graphics = resizedImage.createGraphics();
+                graphics.setColor(Color.WHITE);
+                graphics.fillRect(0, 0, targetWidth, targetHeight);
+                int x = (targetWidth - image.getWidth()) / 2;
+                int y = (targetHeight - image.getHeight()) / 2;
+                graphics.drawImage(image, x, y, null);
+                graphics.dispose();
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                ImageIO.write(resizedImage, "jpg", outputStream);
+                this.imageBytes = outputStream.toByteArray();
+                // Convertir el arreglo de bytes a ImageIcon
+                ImageIcon imageIcon = new ImageIcon(imageBytes);
+                labelImagen.setIcon(imageIcon);
+            } catch (IOException ex) {
+                ex.printStackTrace();
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmEditarImagenPerfil().setVisible(true);
+                JOptionPane.showMessageDialog(null, "Error al leer la imagen");
             }
-        });
-    }
+        }
+    }//GEN-LAST:event_btnSeleccionarActionPerformed
+
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(FrmEditarImagenPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(FrmEditarImagenPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(FrmEditarImagenPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(FrmEditarImagenPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new FrmEditarImagenPerfil().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSeleccionar;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnVolver;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel labelImagen;
     // End of variables declaration//GEN-END:variables
 }

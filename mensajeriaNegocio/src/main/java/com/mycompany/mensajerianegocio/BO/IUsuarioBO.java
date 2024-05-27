@@ -19,4 +19,6 @@ public interface IUsuarioBO {
     public UsuarioDTO consultarUsuarioTelefonoContrasena(UsuarioDTO usuarioDTO) throws Exception;
     
     public List<UsuarioDTO> consultarUsuarioTelefono(String telefono) throws Exception;
+    
+    public UsuarioDTO actualizarUsuario(UsuarioNuevoDTO usuarioNuevo) throws Exception;
 }

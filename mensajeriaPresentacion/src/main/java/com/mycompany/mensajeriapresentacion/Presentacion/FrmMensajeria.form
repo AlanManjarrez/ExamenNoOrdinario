@@ -19,6 +19,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="title" type="java.lang.String" value="Conversaci&#xf3;n"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -112,24 +113,17 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="labelImagen" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                           <Component id="labelNombreUsuario" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="btnVolver" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="txtMensaje" alignment="0" min="-2" pref="363" max="-2" attributes="0"/>
-                              <Component id="scrollMensaje" min="-2" pref="363" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+                      <Component id="txtMensaje" alignment="0" min="-2" pref="363" max="-2" attributes="0"/>
+                      <Component id="scrollMensaje" min="-2" pref="363" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="26" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -138,7 +132,6 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="labelImagen" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="labelNombreUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnVolver" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -156,20 +149,6 @@
           <Events>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtMensajeKeyTyped"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JLabel" name="labelImagen">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Verdana" size="24" style="0"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="33" green="33" red="33" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Chats"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="labelNombreUsuario">
           <Properties>

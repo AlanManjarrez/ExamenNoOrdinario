@@ -98,6 +98,7 @@ public class FrmChats extends javax.swing.JFrame {
         btnConfiguracion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Chats");
 
         jPanel1.setBackground(new java.awt.Color(255, 153, 153));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));

@@ -41,6 +41,7 @@ public class FrmConfiguracion extends javax.swing.JFrame {
         btnVolver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Configuración");
 
         jPanel1.setBackground(new java.awt.Color(255, 153, 153));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -173,7 +174,7 @@ public class FrmConfiguracion extends javax.swing.JFrame {
 
     private void btnEditarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarUsuarioActionPerformed
         // TODO add your handling code here:
-        FrmEditarUsuario frmEditarUsuario = new FrmEditarUsuario();
+        FrmEditarUsuario frmEditarUsuario = new FrmEditarUsuario(usuarioConsultado);
         frmEditarUsuario.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnEditarUsuarioActionPerformed

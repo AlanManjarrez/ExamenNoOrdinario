@@ -48,6 +48,7 @@ public class FrmRegistroDireccion extends javax.swing.JFrame {
         txtNumero = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Registrar Dirección");
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 

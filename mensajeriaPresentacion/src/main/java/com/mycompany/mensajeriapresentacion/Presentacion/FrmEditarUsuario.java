@@ -4,17 +4,34 @@
  */
 package com.mycompany.mensajeriapresentacion.Presentacion;
 
+import com.mycompany.mensajerianegocio.DTOS.UsuarioDTO;
+import com.mycompany.mensajerianegocio.DTOS.UsuarioNuevoDTO;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author uirtis
  */
 public class FrmEditarUsuario extends javax.swing.JFrame {
 
+    private UsuarioDTO usuarioDTO;
+
     /**
      * Creates new form FrmIniciarSesion
      */
-    public FrmEditarUsuario() {
+    public FrmEditarUsuario(UsuarioDTO usuarioDTO) {
+        this.usuarioDTO = usuarioDTO;
         initComponents();
+        txtTelefono.setText(usuarioDTO.getTelefono());
+        pswContrasena.setText(usuarioDTO.getContrasena());
+        pswConfirmarContrasena.setText(usuarioDTO.getContrasena());
+        dpFechaNacimiento.setText(usuarioDTO.getFechaNacimiento());
+        cboxSexo.setSelectedItem(usuarioDTO.getSexo());
     }
 
     /**
@@ -34,7 +51,7 @@ public class FrmEditarUsuario extends javax.swing.JFrame {
         btnSiguiente = new javax.swing.JButton();
         pswContrasena = new javax.swing.JPasswordField();
         jLabel6 = new javax.swing.JLabel();
-        datePicker1 = new com.github.lgooddatepicker.components.DatePicker();
+        dpFechaNacimiento = new com.github.lgooddatepicker.components.DatePicker();
         jLabel7 = new javax.swing.JLabel();
         cboxSexo = new javax.swing.JComboBox<>();
         btnVolver = new javax.swing.JButton();
@@ -44,6 +61,7 @@ public class FrmEditarUsuario extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Editar Usuario");
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -69,6 +87,11 @@ public class FrmEditarUsuario extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
 
         btnSiguiente.setText("Siguiente");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Sexo");
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
@@ -144,7 +167,7 @@ public class FrmEditarUsuario extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(pswConfirmarContrasena)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(dpFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(jPanel3Layout.createSequentialGroup()
                                     .addGap(29, 29, 29)
                                     .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -183,7 +206,7 @@ public class FrmEditarUsuario extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dpFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -217,51 +240,97 @@ public class FrmEditarUsuario extends javax.swing.JFrame {
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
+        FrmConfiguracion frmConfiguracion = new FrmConfiguracion(usuarioDTO);
+        frmConfiguracion.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmEditarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmEditarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmEditarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmEditarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        // TODO add your handling code here:
+        String telefono = txtTelefono.getText();
+        String contrasena = String.valueOf(pswContrasena.getPassword());
+        String confirmarContrasena = String.valueOf(pswConfirmarContrasena.getPassword());
+        String fechaNacimiento = dpFechaNacimiento.getText();
+        SimpleDateFormat inputFormat = new SimpleDateFormat("MMM d, yyyy", Locale.ENGLISH);
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmEditarUsuario().setVisible(true);
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            Date parsedDate = inputFormat.parse(fechaNacimiento);
+
+            fechaNacimiento = outputFormat.format(parsedDate);
+
+        } catch (java.text.ParseException ex) {
+            Logger.getLogger(FrmRegistroUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        String sexo = String.valueOf(cboxSexo.getSelectedItem());
+
+        if (telefono.isEmpty() || contrasena.isEmpty() || confirmarContrasena.isEmpty() || fechaNacimiento.isEmpty() || sexo.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.");
+            return;
+        } else {
+            if (!contrasena.equals(confirmarContrasena)) {
+                JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.");
+                return;
             }
-        });
-    }
+            UsuarioNuevoDTO usuarioNuevo = new UsuarioNuevoDTO();
+            UsuarioDTO usuarioDTO = new UsuarioDTO(telefono, contrasena, sexo, fechaNacimiento);
+            
+            usuarioDTO.setImagenPerfil(this.usuarioDTO.getImagenPerfil());
+            
+            usuarioDTO.setIdUsuario(this.usuarioDTO.getIdUsuario());
+            usuarioNuevo.setUsuarioDTO(usuarioDTO);
+
+            FrmEditarDireccion frmEditarDireccion = new FrmEditarDireccion(usuarioNuevo);
+            frmEditarDireccion.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnSiguienteActionPerformed
+
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(FrmEditarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(FrmEditarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(FrmEditarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(FrmEditarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new FrmEditarUsuario().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnVolver;
     private javax.swing.JComboBox<String> cboxSexo;
-    private com.github.lgooddatepicker.components.DatePicker datePicker1;
+    private com.github.lgooddatepicker.components.DatePicker dpFechaNacimiento;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

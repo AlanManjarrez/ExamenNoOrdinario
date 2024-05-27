@@ -151,7 +151,6 @@ public class FrmMensajeria extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         txtMensaje = new javax.swing.JTextField();
-        labelImagen = new javax.swing.JLabel();
         labelNombreUsuario = new javax.swing.JLabel();
         scrollMensaje = new javax.swing.JScrollPane();
         txtaMensaje = new javax.swing.JTextArea();
@@ -163,6 +162,7 @@ public class FrmMensajeria extends javax.swing.JFrame {
         jLabel3.setText("Chats");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Conversación");
 
         jPanel1.setBackground(new java.awt.Color(255, 153, 153));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -197,11 +197,6 @@ public class FrmMensajeria extends javax.swing.JFrame {
             }
         });
 
-        labelImagen.setBackground(new java.awt.Color(255, 255, 255));
-        labelImagen.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
-        labelImagen.setForeground(new java.awt.Color(51, 51, 51));
-        labelImagen.setText("Chats");
-
         labelNombreUsuario.setBackground(new java.awt.Color(255, 255, 255));
         labelNombreUsuario.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
         labelNombreUsuario.setForeground(new java.awt.Color(51, 51, 51));
@@ -223,27 +218,21 @@ public class FrmMensajeria extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(labelImagen)
-                        .addGap(26, 26, 26)
                         .addComponent(labelNombreUsuario)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnVolver))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(scrollMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(scrollMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelImagen)
                     .addComponent(labelNombreUsuario)
                     .addComponent(btnVolver))
                 .addGap(27, 27, 27)
@@ -324,7 +313,6 @@ public class FrmMensajeria extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JLabel labelImagen;
     private javax.swing.JLabel labelNombreUsuario;
     private javax.swing.JScrollPane scrollMensaje;
     private javax.swing.JTextField txtMensaje;

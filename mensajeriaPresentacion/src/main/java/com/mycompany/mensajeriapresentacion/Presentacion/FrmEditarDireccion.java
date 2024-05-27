@@ -4,17 +4,40 @@
  */
 package com.mycompany.mensajeriapresentacion.Presentacion;
 
+import com.mycompany.mensajerianegocio.BO.DireccionBO;
+import com.mycompany.mensajerianegocio.BO.IDireccionBO;
+import com.mycompany.mensajerianegocio.DTOS.DireccionDTO;
+import com.mycompany.mensajerianegocio.DTOS.UsuarioNuevoDTO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author uirtis
  */
 public class FrmEditarDireccion extends javax.swing.JFrame {
 
+    private UsuarioNuevoDTO usuarioNuevo;
+    private IDireccionBO direccionBO;
+
     /**
      * Creates new form FrmIniciarSesion
      */
-    public FrmEditarDireccion() {
+    public FrmEditarDireccion(UsuarioNuevoDTO usuarioNuevo) {
+        this.usuarioNuevo = usuarioNuevo;
+        this.direccionBO = new DireccionBO();
         initComponents();
+        DireccionDTO direccionDTO = null;
+        try {
+            direccionDTO = direccionBO.consultarDireccion(usuarioNuevo.getUsuarioDTO().getIdUsuario());
+        } catch (Exception ex) {
+            Logger.getLogger(FrmEditarDireccion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        usuarioNuevo.setDireccionDTO(direccionDTO);
+        txtCalle.setText(usuarioNuevo.getDireccionDTO().getCalle());
+        txtCodigoPostal.setText(usuarioNuevo.getDireccionDTO().getCodigoPostal());
+        txtNumero.setText(usuarioNuevo.getDireccionDTO().getNumero());
     }
 
     /**
@@ -40,6 +63,7 @@ public class FrmEditarDireccion extends javax.swing.JFrame {
         txtNumero = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Editar Dirección");
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -60,6 +84,11 @@ public class FrmEditarDireccion extends javax.swing.JFrame {
         jLabel3.setText("Calle");
 
         btnSiguiente.setText("Siguiente");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
 
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -198,6 +227,9 @@ public class FrmEditarDireccion extends javax.swing.JFrame {
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
+        FrmEditarUsuario frmEditarUsuario = new FrmEditarUsuario(usuarioNuevo.getUsuarioDTO());
+        frmEditarUsuario.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void txtCalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCalleActionPerformed
@@ -208,47 +240,67 @@ public class FrmEditarDireccion extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNumeroActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmEditarDireccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmEditarDireccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmEditarDireccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmEditarDireccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        // TODO add your handling code here:
+         String calle = txtCalle.getText();
+        String numero = txtNumero.getText();
+        String codigoPostal = txtCodigoPostal.getText();
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmEditarDireccion().setVisible(true);
-            }
-        });
-    }
+        if (calle.isEmpty() || numero.isEmpty() || codigoPostal.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.");
+            return;
+        }
+            
+            DireccionDTO direccionDTO = new DireccionDTO(calle, numero, codigoPostal);
+            direccionDTO.setIdUsuario(usuarioNuevo.getUsuarioDTO().getIdUsuario());
+            usuarioNuevo.setDireccionDTO(direccionDTO);
+
+            FrmEditarImagenPerfil frmEditarImagenPerfil = new FrmEditarImagenPerfil(usuarioNuevo);
+            frmEditarImagenPerfil.setVisible(true);
+            this.dispose();
+    }//GEN-LAST:event_btnSiguienteActionPerformed
+
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(FrmEditarDireccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(FrmEditarDireccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(FrmEditarDireccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(FrmEditarDireccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new FrmEditarDireccion().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSiguiente;
