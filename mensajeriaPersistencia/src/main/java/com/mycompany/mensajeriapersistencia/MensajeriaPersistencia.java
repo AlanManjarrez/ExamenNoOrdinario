@@ -29,7 +29,7 @@ public class MensajeriaPersistencia {
 
         //usuarioDAO.agregarUsuario(usuarioActualizado);
         //usuarioDAO.actualizarUsuario(usuarioActualizado);   
-        System.out.println(usuarioDAO.consultarUsuario("5557654321"));
+        System.out.println(usuarioDAO.consultarUsuarioTelefonoContrasena("5557654321","password123"));
         
         Direccion direccion = new Direccion("calle fulana22222", "2222", "22222", 7);
         

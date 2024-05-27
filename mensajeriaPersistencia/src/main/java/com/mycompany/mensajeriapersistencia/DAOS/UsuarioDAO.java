@@ -116,6 +116,40 @@ public class UsuarioDAO implements IUsuarioDAO {
     }
 
     /**
+     * Consulta un usuario en el sistema utilizando su número de teléfono y contraseña.
+     *
+     * @param telefono el número de teléfono del usuario a consultar
+     * @param contrasena la contraseña del usuario a consultar
+     * @return el usuario encontrado, o null si no se encuentra ningún usuario
+     * con ese número de teléfono
+     * @throws PersistenciaException si ocurre un error durante la operación de
+     * persistencia
+     */
+    @Override
+    public Usuario consultarUsuarioTelefonoContrasena(String telefono, String contrasena) throws PersistenciaException {
+        try ( Connection con = this.conexion.crearConexion();  CallableStatement cs = con.prepareCall("{call consultar_usuario_telefono_contrasena(?,?)}")) {
+
+            cs.setString(1, telefono);
+            cs.setString(2, contrasena);
+            ResultSet rs = cs.executeQuery();
+
+            if (rs.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setIdUsuario(rs.getInt("ID_USUARIO"));
+                usuario.setTelefono(rs.getString("TELEFONO"));
+                usuario.setContrasena(rs.getString("CONTRASENA"));
+                usuario.setSexo(rs.getString("SEXO"));
+                usuario.setFechaNacimiento(rs.getString("FECHA_NACIMIENTO"));
+                usuario.setImagenPerfil(rs.getString("IMAGEN_PERFIL"));
+                return usuario;
+            } else {
+                throw new PersistenciaException("No se encontró ningún usuario con el teléfono proporcionado");
+            }
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al consultar el usuario", e);
+        }
+    }
+    /**
      * Consulta un usuario en el sistema utilizando su número de teléfono.
      *
      * @param telefono el número de teléfono del usuario a consultar
@@ -125,8 +159,8 @@ public class UsuarioDAO implements IUsuarioDAO {
      * persistencia
      */
     @Override
-    public Usuario consultarUsuario(String telefono) throws PersistenciaException {
-        try ( Connection con = this.conexion.crearConexion();  CallableStatement cs = con.prepareCall("{call consultar_usuario(?)}")) {
+    public Usuario consultarUsuarioTelefono(String telefono) throws PersistenciaException {
+        try ( Connection con = this.conexion.crearConexion();  CallableStatement cs = con.prepareCall("{call consultar_usuario_telefono(?)}")) {
 
             cs.setString(1, telefono);
             ResultSet rs = cs.executeQuery();
@@ -144,7 +178,6 @@ public class UsuarioDAO implements IUsuarioDAO {
                 throw new PersistenciaException("No se encontró ningún usuario con el teléfono proporcionado");
             }
         } catch (Exception e) {
-            LOG.log(Level.SEVERE, "Error al consultar el usuario", e);
             throw new PersistenciaException("Error al consultar el usuario", e);
         }
     }

@@ -64,6 +64,12 @@ public class Direccion {
         this.idUsuario = idUsuario;
     }
 
+    public Direccion(String calle, String numero, String codigoPostal) {
+        this.calle = calle;
+        this.numero = numero;
+        this.codigoPostal = codigoPostal;
+    }
+
     /**
      * Obtiene el identificador de la dirección.
      *

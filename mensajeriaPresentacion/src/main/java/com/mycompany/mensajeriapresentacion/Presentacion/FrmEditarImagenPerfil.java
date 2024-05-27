@@ -4,38 +4,16 @@
  */
 package com.mycompany.mensajeriapresentacion.Presentacion;
 
-import com.mycompany.mensajerianegocio.BO.IUsuarioBO;
-import com.mycompany.mensajerianegocio.BO.UsuarioBO;
-import com.mycompany.mensajerianegocio.DTOS.UsuarioNuevoDTO;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author uirtis
  */
-public class FrmRegistroImagenPerfil extends javax.swing.JFrame {
-
-    private UsuarioNuevoDTO usuarioNuevo;
-    private byte[] imageBytes;
-    private IUsuarioBO usuarioBO;
+public class FrmEditarImagenPerfil extends javax.swing.JFrame {
 
     /**
      * Creates new form FrmIniciarSesion
      */
-    public FrmRegistroImagenPerfil(UsuarioNuevoDTO usuarioNuevo) {
-        this.usuarioNuevo = usuarioNuevo;
-        this.usuarioBO = new UsuarioBO();
+    public FrmEditarImagenPerfil() {
         initComponents();
     }
 
@@ -52,8 +30,7 @@ public class FrmRegistroImagenPerfil extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnSiguiente = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
-        labelImagen = new javax.swing.JLabel();
-        txtSeleccionar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
 
@@ -61,10 +38,10 @@ public class FrmRegistroImagenPerfil extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel2.setText("Imagen Perfil");
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel2.setText("Editar Imagen Perfil");
 
         btnSiguiente.setText("Siguiente");
         btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
@@ -80,14 +57,7 @@ public class FrmRegistroImagenPerfil extends javax.swing.JFrame {
             }
         });
 
-        labelImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/11820363.png"))); // NOI18N
-
-        txtSeleccionar.setText("Seleccionar");
-        txtSeleccionar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSeleccionarActionPerformed(evt);
-            }
-        });
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/11820363.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -103,25 +73,20 @@ public class FrmRegistroImagenPerfil extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(96, 96, 96)
-                        .addComponent(labelImagen))
+                        .addComponent(jLabel1))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(114, 114, 114)
-                        .addComponent(jLabel2))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(153, 153, 153)
-                        .addComponent(txtSeleccionar)))
-                .addContainerGap(103, Short.MAX_VALUE))
+                        .addGap(80, 80, 80)
+                        .addComponent(jLabel2)))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addGap(42, 42, 42)
                 .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(labelImagen)
-                .addGap(18, 18, 18)
-                .addComponent(txtSeleccionar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnVolver)
                     .addComponent(btnSiguiente))
@@ -130,10 +95,10 @@ public class FrmRegistroImagenPerfil extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 153, 153));
 
-        jLabel9.setText("Juatsapp");
         jLabel9.setBackground(new java.awt.Color(255, 255, 255));
         jLabel9.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Juatsapp");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -172,101 +137,61 @@ public class FrmRegistroImagenPerfil extends javax.swing.JFrame {
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
-        FrmRegistroDireccion frmRegistroDireccion = new FrmRegistroDireccion(usuarioNuevo);
-        frmRegistroDireccion.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        try {
-            usuarioBO.agregarUsuario(usuarioNuevo);
-        } catch (Exception ex) {
-            Logger.getLogger(FrmRegistroImagenPerfil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        FrmIniciarSesion frmIniciarSesion = new FrmIniciarSesion();
-        frmIniciarSesion.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnSiguienteActionPerformed
-
-    private void txtSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSeleccionarActionPerformed
         // TODO add your handling code here:
-        JFileChooser chooser = new JFileChooser();
-        chooser.showOpenDialog(null);
-        File file = chooser.getSelectedFile();
-        if (file != null) {
-            try {
-                BufferedImage image = ImageIO.read(file);
-                int targetWidth = 200;
-                int targetHeight = 200;
-                BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
-                Graphics2D graphics = resizedImage.createGraphics();
-                graphics.setColor(Color.WHITE);
-                graphics.fillRect(0, 0, targetWidth, targetHeight);
-                int x = (targetWidth - image.getWidth()) / 2;
-                int y = (targetHeight - image.getHeight()) / 2;
-                graphics.drawImage(image, x, y, null);
-                graphics.dispose();
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                ImageIO.write(resizedImage, "jpg", outputStream);
-                this.imageBytes = outputStream.toByteArray();
-                // Convertir el arreglo de bytes a ImageIcon
-                ImageIcon imageIcon = new ImageIcon(imageBytes);
-                labelImagen.setIcon(imageIcon);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-
-                JOptionPane.showMessageDialog(null, "Error al leer la imagen");
-            }
-        }
-    }//GEN-LAST:event_txtSeleccionarActionPerformed
+    }//GEN-LAST:event_btnSiguienteActionPerformed
 
     /**
      * @param args the command line arguments
      */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(FrmRegistroImagenPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(FrmRegistroImagenPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(FrmRegistroImagenPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(FrmRegistroImagenPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//        //</editor-fold>
-//        //</editor-fold>
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new FrmRegistroImagenPerfil().setVisible(true);
-//            }
-//        });
-//    }
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(FrmEditarImagenPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(FrmEditarImagenPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(FrmEditarImagenPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(FrmEditarImagenPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new FrmEditarImagenPerfil().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnVolver;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JLabel labelImagen;
-    private javax.swing.JButton txtSeleccionar;
     // End of variables declaration//GEN-END:variables
 }

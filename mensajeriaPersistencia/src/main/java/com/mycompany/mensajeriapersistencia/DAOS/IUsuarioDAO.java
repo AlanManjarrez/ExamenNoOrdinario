@@ -1,4 +1,3 @@
-
 package com.mycompany.mensajeriapersistencia.DAOS;
 
 import com.mycompany.mensajeriapersistencia.Dominio.Usuario;
@@ -44,6 +43,18 @@ public interface IUsuarioDAO {
     public Usuario actualizarUsuario(Usuario usuario) throws PersistenciaException;
 
     /**
+     * Consulta un usuario en el sistema utilizando su número de teléfono y contraseña.
+     *
+     * @param telefono el número de teléfono del usuario a consultar
+     * @param contrasena la contraseña del usuario a consultar
+     * @return el usuario encontrado, o null si no se encuentra ningún usuario
+     * con ese número de teléfono
+     * @throws PersistenciaException si ocurre un error durante la operación de
+     * persistencia
+     */
+    public Usuario consultarUsuarioTelefonoContrasena(String telefono, String contrasena) throws PersistenciaException;
+
+    /**
      * Consulta un usuario en el sistema utilizando su número de teléfono.
      *
      * @param telefono el número de teléfono del usuario a consultar
@@ -52,6 +63,6 @@ public interface IUsuarioDAO {
      * @throws PersistenciaException si ocurre un error durante la operación de
      * persistencia
      */
-    public Usuario consultarUsuario(String telefono) throws PersistenciaException;
+    public Usuario consultarUsuarioTelefono(String telefono) throws PersistenciaException;
 
 }

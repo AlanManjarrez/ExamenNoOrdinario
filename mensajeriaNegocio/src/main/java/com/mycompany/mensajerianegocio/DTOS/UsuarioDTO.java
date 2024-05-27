@@ -6,14 +6,16 @@ package com.mycompany.mensajerianegocio.DTOS;
 
 /**
  * Clase que representa el Data Transfer Object (DTO) para la entidad Usuario.
- * 
- * Esta clase se utiliza para transferir datos de usuario entre las capas de la aplicación 
- * sin exponer directamente la entidad del modelo de datos. Incluye propiedades básicas del usuario 
- * como idUsuario, telefono, contrasena, sexo, fechaNacimiento e imagenPerfil.
- * 
- * Los objetos de esta clase son utilizados para encapsular y transportar datos relacionados 
- * con el usuario a través de los diferentes componentes del sistema.
- * 
+ *
+ * Esta clase se utiliza para transferir datos de usuario entre las capas de la
+ * aplicación sin exponer directamente la entidad del modelo de datos. Incluye
+ * propiedades básicas del usuario como idUsuario, telefono, contrasena, sexo,
+ * fechaNacimiento e imagenPerfil.
+ *
+ * Los objetos de esta clase son utilizados para encapsular y transportar datos
+ * relacionados con el usuario a través de los diferentes componentes del
+ * sistema.
+ *
  * @autor Jose Alan Manjarrez Ontiveros 228982
  */
 public class UsuarioDTO {
@@ -46,6 +48,13 @@ public class UsuarioDTO {
         this.sexo = sexo;
         this.fechaNacimiento = fechaNacimiento;
         this.imagenPerfil = imagenPerfil;
+    }
+
+    public UsuarioDTO(String telefono, String contrasena, String sexo, String fechaNacimiento) {
+        this.telefono = telefono;
+        this.contrasena = contrasena;
+        this.sexo = sexo;
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     /**

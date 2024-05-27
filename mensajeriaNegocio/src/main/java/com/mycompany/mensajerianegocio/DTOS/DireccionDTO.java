@@ -48,6 +48,12 @@ public class DireccionDTO {
         this.idUsuario = idUsuario;
     }
 
+    public DireccionDTO(String calle, String numero, String codigoPostal) {
+        this.calle = calle;
+        this.numero = numero;
+        this.codigoPostal = codigoPostal;
+    }
+    
     /**
      * Obtiene el identificador de la direcciónDTO.
      *

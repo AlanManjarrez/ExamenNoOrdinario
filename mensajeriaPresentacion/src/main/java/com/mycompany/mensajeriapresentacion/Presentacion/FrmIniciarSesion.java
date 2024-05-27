@@ -4,16 +4,26 @@
  */
 package com.mycompany.mensajeriapresentacion.Presentacion;
 
+import com.mycompany.mensajerianegocio.BO.IUsuarioBO;
+import com.mycompany.mensajerianegocio.BO.UsuarioBO;
+import com.mycompany.mensajerianegocio.DTOS.UsuarioDTO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author uirtis
  */
 public class FrmIniciarSesion extends javax.swing.JFrame {
-
+    
+    private IUsuarioBO usuarioBO;
+    
     /**
      * Creates new form FrmIniciarSesion
      */
     public FrmIniciarSesion() {
+        this.usuarioBO = new UsuarioBO();
         initComponents();
     }
 
@@ -70,7 +80,7 @@ public class FrmIniciarSesion extends javax.swing.JFrame {
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel2.setText("Iniciar Sesion");
+        jLabel2.setText("Iniciar Sesión");
 
         txtTelefono.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,7 +91,7 @@ public class FrmIniciarSesion extends javax.swing.JFrame {
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel3.setText("Telefono");
+        jLabel3.setText("Teléfono");
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
         jLabel4.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
@@ -89,6 +99,11 @@ public class FrmIniciarSesion extends javax.swing.JFrame {
         jLabel4.setText("Contraseña");
 
         btnIniciarSesion.setText("Iniciar Sesión");
+        btnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIniciarSesionActionPerformed(evt);
+            }
+        });
 
         jLabel5.setBackground(new java.awt.Color(255, 255, 255));
         jLabel5.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
@@ -97,6 +112,11 @@ public class FrmIniciarSesion extends javax.swing.JFrame {
 
         btnRegistrarse.setForeground(new java.awt.Color(51, 102, 255));
         btnRegistrarse.setText("Registrarse");
+        btnRegistrarse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarseActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -174,6 +194,44 @@ public class FrmIniciarSesion extends javax.swing.JFrame {
     private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTelefonoActionPerformed
+
+    private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
+        // TODO add your handling code here:
+        
+        String telefono = txtTelefono.getText();
+        String contrasena = String.valueOf(pswContrasena.getPassword());
+        
+        if (telefono.isEmpty() || contrasena.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos tienen que estar llenos");
+            return;
+        }
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setTelefono(telefono);
+        usuarioDTO.setContrasena(contrasena);
+        
+        UsuarioDTO usuarioConsultado = null;
+        try {
+            usuarioConsultado = usuarioBO.consultarUsuario(usuarioDTO);
+        } catch (Exception ex) {
+            
+        }
+        
+        if (usuarioConsultado == null) {
+            JOptionPane.showMessageDialog(this, "Usuario No Encontrado.");
+            return;
+        }
+        
+        FrmChats frmChats = new FrmChats(usuarioConsultado);
+        frmChats.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnIniciarSesionActionPerformed
+
+    private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
+        // TODO add your handling code here:
+        FrmRegistroUsuario frmRegistroUsuario = new FrmRegistroUsuario();
+        frmRegistroUsuario.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegistrarseActionPerformed
 
     /**
      * @param args the command line arguments
