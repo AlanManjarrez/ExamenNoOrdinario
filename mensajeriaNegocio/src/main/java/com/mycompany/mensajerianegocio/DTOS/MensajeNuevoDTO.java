@@ -5,8 +5,13 @@
 package com.mycompany.mensajerianegocio.DTOS;
 
 /**
+ * Clase de transferencia de datos para la creación de un nuevo mensaje.
+ * 
+ * Esta clase representa los datos necesarios para crear un nuevo mensaje, 
+ * incluyendo el texto del mensaje, la fecha y hora de registro, la imagen del mensaje, 
+ * el identificador del usuario y el identificador del chat al que pertenece.
  *
- * @author uirtis
+ * @author Jose Alan Manjarrez Ontiveros 228982
  */
 public class MensajeNuevoDTO {
 

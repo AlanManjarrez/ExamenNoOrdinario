@@ -16,7 +16,7 @@ package com.mycompany.mensajerianegocio.DTOS;
  * relacionados con el mensaje a través de los diferentes componentes del
  * sistema.
  *
- * @autor Jose Alan Manjarrez Ontiveros 228982
+ * @author Jose Alan Manjarrez Ontiveros 228982
  */
 public class MensajeDTO {
 

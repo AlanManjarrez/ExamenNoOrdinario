@@ -28,8 +28,13 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * Clase que implementa la lógica de negocio para la gestión de chats.
  *
- * @author uirtis
+ * Esta clase maneja la creación, conversión y consulta de chats y sus
+ * participantes, utilizando diferentes DAO para interactuar con la base de
+ * datos.
+ *
+ * @author Jose Alan Manjarrez Ontiveros 228982
  */
 public class ChatBO implements IChatBO {
 
@@ -38,6 +43,9 @@ public class ChatBO implements IChatBO {
     private IParticipanteDAO participanteDAO;
     private IMensajeDAO mensajeDAO;
 
+    /**
+     * Constructor por defecto que inicializa los DAOs necesarios.
+     */
     public ChatBO() {
         this.usuarioDAO = new UsuarioDAO();
         this.chatDAO = new ChatDAO();
@@ -45,6 +53,12 @@ public class ChatBO implements IChatBO {
         this.mensajeDAO = new MensajeDAO();
     }
 
+    /**
+     * Convierte un objeto ChatDTO a una entidad Chat.
+     *
+     * @param chatDTO el DTO del chat a convertir
+     * @return el objeto Chat convertido
+     */
     public Chat convertirEntidadChat(ChatDTO chatDTO) {
         Chat chat = new Chat(chatDTO.getNombreUsuario());
         if (chatDTO.getIdChat() > 0) {
@@ -53,6 +67,12 @@ public class ChatBO implements IChatBO {
         return chat;
     }
 
+    /**
+     * Convierte una entidad Chat a un objeto ChatDTO.
+     *
+     * @param chat la entidad Chat a convertir
+     * @return el objeto ChatDTO convertido
+     */
     public ChatDTO convertirDTOChat(Chat chat) {
         ChatDTO chatDTO = new ChatDTO();
         chatDTO.setNombreUsuario(chat.getNombreUsuario());
@@ -62,6 +82,12 @@ public class ChatBO implements IChatBO {
         return chatDTO;
     }
 
+    /**
+     * Convierte una entidad Mensaje a un objeto MensajeDTO.
+     *
+     * @param mensaje la entidad Mensaje a convertir
+     * @return el objeto MensajeDTO convertido
+     */
     public static MensajeDTO convertirAMensajeDTO(Mensaje mensaje) {
         MensajeDTO mensajeDTO = new MensajeDTO();
         mensajeDTO.setIdChat(mensaje.getIdChat());
@@ -73,6 +99,13 @@ public class ChatBO implements IChatBO {
         return mensajeDTO;
     }
 
+    /**
+     * Agrega un nuevo chat y sus participantes.
+     *
+     * @param chatNuevoDTO el DTO del nuevo chat a agregar
+     * @return el objeto ChatDTO del chat agregado
+     * @throws Exception si ocurre un error al agregar el chat
+     */
     @Override
     public ChatDTO agregarChat(ChatNuevoDTO chatNuevoDTO) throws Exception {
         Usuario usuario = usuarioDAO.consultarUsuarioTelefono(chatNuevoDTO.getTelefonoReceptor()).get(0);
@@ -89,6 +122,13 @@ public class ChatBO implements IChatBO {
         return convertirDTOChat(chat);
     }
 
+    /**
+     * Consulta todos los chats de un participante.
+     *
+     * @param idParticipante el identificador del participante
+     * @return una lista de objetos ChatDTO
+     * @throws Exception si ocurre un error al consultar los chats
+     */
     @Override
     public List<ChatDTO> consultarChat(int idParticipante) throws Exception {
         List<Participante> participantes = participanteDAO.consultarParticipante(idParticipante);
@@ -102,11 +142,25 @@ public class ChatBO implements IChatBO {
         return listaChats;
     }
 
+    /**
+     * Consulta todos los participantes de un chat.
+     *
+     * @param idParticipante el identificador del participante
+     * @return una lista de objetos Participante
+     * @throws Exception si ocurre un error al consultar los participantes
+     */
     @Override
     public List<Participante> consultarParticipante(int idParticipante) throws Exception {
         return participanteDAO.consultarParticipante(idParticipante);
     }
 
+    /**
+     * Agrega un nuevo mensaje a un chat.
+     *
+     * @param mensajeDTO el DTO del nuevo mensaje a agregar
+     * @return el objeto MensajeDTO del mensaje agregado
+     * @throws Exception si ocurre un error al agregar el mensaje
+     */
     @Override
     public MensajeDTO agregarMensaje(MensajeNuevoDTO mensajeDTO) throws Exception {
 
@@ -129,9 +183,16 @@ public class ChatBO implements IChatBO {
         return convertirAMensajeDTO(mensajeCreado);
     }
 
+    /**
+     * Consulta todos los mensajes de un chat.
+     *
+     * @param idChat el identificador del chat
+     * @return una lista de objetos MensajeDTO
+     * @throws Exception si ocurre un error al consultar los mensajes
+     */
     @Override
     public List<MensajeDTO> consultarMensajesChat(int idChat) throws Exception {
-        
+
         List<MensajeDTO> mensajes = new ArrayList<>();
         for (Mensaje mensaje : mensajeDAO.consultarMensajeChat(idChat)) {
             mensajes.add(convertirAMensajeDTO(mensaje));

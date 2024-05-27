@@ -14,7 +14,7 @@ package com.mycompany.mensajerianegocio.DTOS;
  * Los objetos de esta clase son utilizados para encapsular y transportar datos relacionados 
  * con el chat a través de los diferentes componentes del sistema.
  * 
- * @autor Jose Alan Manjarrez Ontiveros 228982
+ * @author Jose Alan Manjarrez Ontiveros 228982
  */
 public class ChatDTO {
     private int idChat;

@@ -6,17 +6,17 @@ package com.mycompany.mensajerianegocio.DTOS;
 
 /**
  * Clase que representa el Data Transfer Object (DTO) para la entidad Direccion.
- * 
+ *
  * Esta clase se utiliza para transferir datos de dirección entre las capas de
  * la aplicación sin exponer directamente la entidad del modelo de datos.
  * Incluye propiedades básicas de la dirección como idDireccion, calle, numero,
  * codigoPostal e idUsuario.
- * 
+ *
  * Los objetos de esta clase son utilizados para encapsular y transportar datos
  * relacionados con la dirección a través de los diferentes componentes del
  * sistema.
  *
- * @autor Jose Alan Manjarrez Ontiveros 228982
+ * @author Jose Alan Manjarrez Ontiveros 228982
  */
 public class DireccionDTO {
 
@@ -48,12 +48,20 @@ public class DireccionDTO {
         this.idUsuario = idUsuario;
     }
 
+    /**
+     * Constructor que inicializa los atributos calle, número y código postal de
+     * la dirección.
+     *
+     * @param calle la calle de la dirección
+     * @param numero el número de la dirección
+     * @param codigoPostal el código postal de la dirección
+     */
     public DireccionDTO(String calle, String numero, String codigoPostal) {
         this.calle = calle;
         this.numero = numero;
         this.codigoPostal = codigoPostal;
     }
-    
+
     /**
      * Obtiene el identificador de la direcciónDTO.
      *

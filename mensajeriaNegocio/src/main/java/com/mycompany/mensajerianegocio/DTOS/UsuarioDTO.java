@@ -16,7 +16,7 @@ package com.mycompany.mensajerianegocio.DTOS;
  * relacionados con el usuario a través de los diferentes componentes del
  * sistema.
  *
- * @autor Jose Alan Manjarrez Ontiveros 228982
+ * @author Jose Alan Manjarrez Ontiveros 228982
  */
 public class UsuarioDTO {
 
@@ -50,6 +50,15 @@ public class UsuarioDTO {
         this.imagenPerfil = imagenPerfil;
     }
 
+    /**
+     * Constructor que inicializa los atributos de teléfono, contraseña, sexo y
+     * fecha de nacimiento del usuario.
+     *
+     * @param telefono el número de teléfono del usuario
+     * @param contrasena la contraseña del usuario
+     * @param sexo el sexo del usuario
+     * @param fechaNacimiento la fecha de nacimiento del usuario
+     */
     public UsuarioDTO(String telefono, String contrasena, String sexo, String fechaNacimiento) {
         this.telefono = telefono;
         this.contrasena = contrasena;
