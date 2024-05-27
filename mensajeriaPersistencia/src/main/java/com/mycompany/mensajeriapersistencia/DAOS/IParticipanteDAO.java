@@ -22,7 +22,7 @@ import java.util.List;
  * indicar problemas relacionados con la persistencia de datos durante la
  * ejecución de estas operaciones.
  *
- * @autor Jose Alan Manjarrez Ontiveros 228982
+ * @author Jose Alan Manjarrez Ontiveros 228982
  */
 public interface IParticipanteDAO {
 

@@ -13,10 +13,6 @@ import com.mycompany.mensajeriapersistencia.Dominio.Participante;
 import com.mycompany.mensajeriapersistencia.Dominio.Usuario;
 import com.mycompany.mensajeriapersistencia.PersistenciaException.PersistenciaException;
 
-/**
- *
- * @author uirtis
- */
 public class MensajeriaPersistencia {
 
     public static void main(String[] args) throws PersistenciaException {
@@ -38,13 +34,13 @@ public class MensajeriaPersistencia {
         //direccionDAO.actualizarDireccion(direccion);
 //        System.out.println(direccionDAO.consultarDireccion(7));
         
-        Chat chat = new Chat(5,"ernesto_torres");
-        ChatDAO chatDAO = new ChatDAO();
-        
-        //chatDAO.agregarChat(chat);
-        //chatDAO.editarChat(chat);
-        //chatDAO.eliminarChat(5);
-        System.out.println(chatDAO.consultarChat(1));
+//        Chat chat = new Chat(5,"ernesto_torres");
+//        ChatDAO chatDAO = new ChatDAO();
+//        
+//        //chatDAO.agregarChat(chat);
+//        //chatDAO.editarChat(chat);
+//        //chatDAO.eliminarChat(5);
+//        System.out.println(chatDAO.consultarChat(1));
         
 //        Mensaje mensaje = new Mensaje(3,"COMO VASSSS", "2024-5-26 17:58:24", "imagen.png", 3, 3);
 //        MensajeDAO mensajeDAO = new MensajeDAO();

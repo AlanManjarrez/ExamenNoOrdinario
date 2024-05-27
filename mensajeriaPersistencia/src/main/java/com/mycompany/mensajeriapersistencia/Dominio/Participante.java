@@ -112,7 +112,7 @@ public class Participante {
      * Devuelve una representación de cadena del objeto Participante.
      *
      * @return una cadena que representa el objeto Participante, que incluye
- todos los atributos
+     * todos los atributos
      */
     @Override
     public String toString() {

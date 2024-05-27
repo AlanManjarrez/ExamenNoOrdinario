@@ -21,7 +21,7 @@ import java.util.List;
  * indicar problemas relacionados con la persistencia de datos durante la
  * ejecución de estas operaciones.
  *
- * @autor Jose Alan Manjarrez Ontiveros 228982
+ * @author Jose Alan Manjarrez Ontiveros 228982
  */
 public interface IMensajeDAO {
 
@@ -65,5 +65,14 @@ public interface IMensajeDAO {
      */
     public List<Mensaje> consultarMensaje(String texto) throws PersistenciaException;
 
+    /**
+     * Consulta todos los mensajes asociados a un chat específico.
+     *
+     * @param idChat el identificador del chat cuyos mensajes se desean
+     * consultar
+     * @return una lista de objetos Mensaje que pertenecen al chat especificado
+     * @throws PersistenciaException si ocurre un error al acceder a la base de
+     * datos
+     */
     public List<Mensaje> consultarMensajeChat(int idChat) throws PersistenciaException;
 }

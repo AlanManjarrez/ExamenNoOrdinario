@@ -32,7 +32,7 @@ import java.util.logging.Logger;
  * Los errores relacionados con la persistencia de datos son registrados
  * utilizando un {@link Logger} para facilitar el seguimiento y la depuración.
  *
- * @autor Jose Alan Manjarrez Ontiveros 228982
+ * @author Jose Alan Manjarrez Ontiveros 228982
  */
 public class ParticipanteDAO implements IParticipanteDAO {
 
