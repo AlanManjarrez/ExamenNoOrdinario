@@ -52,4 +52,23 @@ BEGIN
 		 M.TEXTO LIKE CONCAT('%', p_texto, '%');
 END %%
 DELIMITER ;
+
+DELIMITER ))
+CREATE PROCEDURE consultar_mensaje_chat(
+	IN p_id_chat INT
+)
+BEGIN
+	SELECT
+		M.ID_MENSAJE,
+		M.TEXTO,
+        M.FECHA_HORA_REGISTRO,
+        M.IMAGEN_MENSAJE,
+        M.ID_USUARIO,
+        M.ID_CHAT
+	FROM
+		MENSAJES M 
+	WHERE
+		 ID_CHAT = p_id_chat;
+END ))
+DELIMITER ;
         

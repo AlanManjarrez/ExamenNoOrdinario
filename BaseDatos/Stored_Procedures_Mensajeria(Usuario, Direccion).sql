@@ -4,11 +4,13 @@ CREATE PROCEDURE agregar_usuario(
     IN p_contrasena VARCHAR(16),
     IN p_sexo VARCHAR(50),
     IN p_fecha_nacimiento DATE,
-    IN p_imagen_perfil LONGBLOB
+    IN p_imagen_perfil LONGBLOB,
+    OUT p_id_usuario INT
 )
 BEGIN
 	INSERT INTO USUARIOS(TELEFONO, CONTRASENA, SEXO, FECHA_NACIMIENTO, IMAGEN_PERFIL)
     VALUES(p_telefono, p_contrasena, p_sexo, p_fecha_nacimiento, p_imagen_perfil);
+    SET p_id_usuario = LAST_INSERT_ID();
 END $$
 DELIMITER ;
 
