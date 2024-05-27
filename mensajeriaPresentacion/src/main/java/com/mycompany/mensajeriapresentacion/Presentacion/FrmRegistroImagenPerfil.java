@@ -179,6 +179,7 @@ public class FrmRegistroImagenPerfil extends javax.swing.JFrame {
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         try {
+            usuarioNuevo.getUsuarioDTO().setImagenPerfil(imageBytes);
             usuarioBO.agregarUsuario(usuarioNuevo);
         } catch (Exception ex) {
             Logger.getLogger(FrmRegistroImagenPerfil.class.getName()).log(Level.SEVERE, null, ex);

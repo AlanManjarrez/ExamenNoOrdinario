@@ -9,6 +9,7 @@ import com.mycompany.mensajeriapersistencia.PersistenciaException.PersistenciaEx
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.Types;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,18 +48,15 @@ public class ChatDAO implements IChatDAO {
      */
     @Override
     public Chat agregarChat(Chat chat) throws PersistenciaException {
-        try ( Connection con = this.conexion.crearConexion();  CallableStatement conn = con.prepareCall("{call agregar_chat(?)}")) {
+        try ( Connection con = this.conexion.crearConexion();  CallableStatement conn = con.prepareCall("{call agregar_chat(?, ?)}")) {
 
             conn.setString(1, chat.getNombreUsuario());
+            conn.registerOutParameter(2, Types.INTEGER);
 
             int registro = conn.executeUpdate();
             LOG.log(Level.INFO, "Se agrego con éxito {0} ", registro);
 
-            ResultSet registroG = conn.getGeneratedKeys();
-            int idGenerado = 0;
-            if (registroG.next()) {
-                idGenerado = registroG.getInt(1);
-            }
+           int idGenerado = conn.getInt(2);
 
             Chat chatNuevo = new Chat(idGenerado,
                     chat.getNombreUsuario()

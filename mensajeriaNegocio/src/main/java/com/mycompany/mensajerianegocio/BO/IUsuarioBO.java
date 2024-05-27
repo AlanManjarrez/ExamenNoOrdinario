@@ -6,6 +6,7 @@ package com.mycompany.mensajerianegocio.BO;
 
 import com.mycompany.mensajerianegocio.DTOS.UsuarioDTO;
 import com.mycompany.mensajerianegocio.DTOS.UsuarioNuevoDTO;
+import java.util.List;
 
 /**
  *
@@ -15,5 +16,7 @@ public interface IUsuarioBO {
 
     public UsuarioDTO agregarUsuario(UsuarioNuevoDTO usuarioNuevo) throws Exception;
     
-    public UsuarioDTO consultarUsuario(UsuarioDTO usuarioDTO) throws Exception;
+    public UsuarioDTO consultarUsuarioTelefonoContrasena(UsuarioDTO usuarioDTO) throws Exception;
+    
+    public List<UsuarioDTO> consultarUsuarioTelefono(String telefono) throws Exception;
 }

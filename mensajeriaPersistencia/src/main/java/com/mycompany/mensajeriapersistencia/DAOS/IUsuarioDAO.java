@@ -63,6 +63,6 @@ public interface IUsuarioDAO {
      * @throws PersistenciaException si ocurre un error durante la operación de
      * persistencia
      */
-    public Usuario consultarUsuarioTelefono(String telefono) throws PersistenciaException;
+    public List<Usuario> consultarUsuarioTelefono(String telefono) throws PersistenciaException;
 
 }

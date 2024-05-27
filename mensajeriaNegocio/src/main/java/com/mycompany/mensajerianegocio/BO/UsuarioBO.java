@@ -13,6 +13,8 @@ import com.mycompany.mensajeriapersistencia.DAOS.IUsuarioDAO;
 import com.mycompany.mensajeriapersistencia.DAOS.UsuarioDAO;
 import com.mycompany.mensajeriapersistencia.Dominio.Direccion;
 import com.mycompany.mensajeriapersistencia.Dominio.Usuario;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -67,8 +69,18 @@ public class UsuarioBO implements IUsuarioBO {
     }
 
     @Override
-    public UsuarioDTO consultarUsuario(UsuarioDTO usuarioDTO) throws Exception {
+    public UsuarioDTO consultarUsuarioTelefonoContrasena(UsuarioDTO usuarioDTO) throws Exception {
         return convertirDTOUsuario(usuario.consultarUsuarioTelefonoContrasena(usuarioDTO.getTelefono(), usuarioDTO.getContrasena()));
+    }
+
+    @Override
+    public List<UsuarioDTO> consultarUsuarioTelefono(String telefono) throws Exception {
+        List<Usuario> usuarios = usuario.consultarUsuarioTelefono(telefono);
+        List<UsuarioDTO> usuariosDTO = new ArrayList<>();
+        for (Usuario usuario: usuarios) {
+            usuariosDTO.add(convertirDTOUsuario(usuario));
+        }
+        return usuariosDTO;
     }
     
    

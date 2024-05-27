@@ -23,7 +23,7 @@ public class Usuario {
     private String contrasena;
     private String sexo;
     private String fechaNacimiento;
-    private String imagenPerfil;
+    private byte[] imagenPerfil;
 
     /**
      * Constructor por defecto de la clase Usuario
@@ -41,7 +41,7 @@ public class Usuario {
      * @param fechaNacimiento la fecha de nacimiento del usuario
      * @param imagenPerfil la URL de la imagen de perfil del usuario
      */
-    public Usuario(int idUsuario, String telefono, String contrasena, String sexo, String fechaNacimiento, String imagenPerfil) {
+    public Usuario(int idUsuario, String telefono, String contrasena, String sexo, String fechaNacimiento, byte[] imagenPerfil) {
         this.idUsuario = idUsuario;
         this.telefono = telefono;
         this.contrasena = contrasena;
@@ -59,7 +59,7 @@ public class Usuario {
      * @param fechaNacimiento la fecha de nacimiento del usuario
      * @param imagenPerfil la URL de la imagen de perfil del usuario
      */
-    public Usuario(String telefono, String contrasena, String sexo, String fechaNacimiento, String imagenPerfil) {
+    public Usuario(String telefono, String contrasena, String sexo, String fechaNacimiento, byte[]imagenPerfil) {
         this.telefono = telefono;
         this.contrasena = contrasena;
         this.sexo = sexo;
@@ -162,7 +162,7 @@ public class Usuario {
      *
      * @return la URL de la imagen de perfil del usuario
      */
-    public String getImagenPerfil() {
+    public byte[] getImagenPerfil() {
         return imagenPerfil;
     }
 
@@ -171,7 +171,7 @@ public class Usuario {
      *
      * @param imagenPerfil la nueva URL de la imagen de perfil del usuario
      */
-    public void setImagenPerfil(String imagenPerfil) {
+    public void setImagenPerfil(byte[] imagenPerfil) {
         this.imagenPerfil = imagenPerfil;
     }
 

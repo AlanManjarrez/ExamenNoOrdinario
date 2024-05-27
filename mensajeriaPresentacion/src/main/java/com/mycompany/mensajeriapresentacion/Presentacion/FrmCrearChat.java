@@ -4,17 +4,93 @@
  */
 package com.mycompany.mensajeriapresentacion.Presentacion;
 
+import com.mycompany.mensajerianegocio.BO.ChatBO;
+import com.mycompany.mensajerianegocio.BO.IChatBO;
+import com.mycompany.mensajerianegocio.BO.IUsuarioBO;
+import com.mycompany.mensajerianegocio.BO.UsuarioBO;
+import com.mycompany.mensajerianegocio.DTOS.ChatNuevoDTO;
+import com.mycompany.mensajerianegocio.DTOS.UsuarioDTO;
+import com.mycompany.mensajeriapresentacion.Renders.RenderImagen;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author uirtis
  */
 public class FrmCrearChat extends javax.swing.JFrame {
 
+    private IUsuarioBO usuarioBO;
+    private UsuarioDTO usuario;
+    private IChatBO chatBO;
+
     /**
      * Creates new form FrmIniciarSesion
      */
-    public FrmCrearChat() {
+    public FrmCrearChat(UsuarioDTO usuario) {
+        this.usuario = usuario;
+        System.out.println(usuario.getTelefono());
+        this.usuarioBO = new UsuarioBO();
+        this.chatBO = new ChatBO();
         initComponents();
+
+    }
+
+    /**
+     * Metodo para establecer los datos de la tabla y configuraciones
+     *
+     * @param medicos Lista de medicos
+     */
+    public void accionesTabla(List<UsuarioDTO> usuarios) {
+        tblChats.setDefaultRenderer(Object.class, new RenderImagen());
+        String[] columnas = {"Telefono", "Imagen Perfil"};
+        DefaultTableModel model = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;  // Esto hará que ninguna celda sea editable
+            }
+        };
+
+        int rowHeight = 60; // Default height for rows with images
+
+        for (UsuarioDTO usuarioDTO : usuarios) {
+            if (!usuarioDTO.getTelefono().equalsIgnoreCase(usuario.getTelefono())) {
+                ImageIcon mIcono = null;
+                try {
+                    byte[] imagen = usuarioDTO.getImagenPerfil();
+                    if (imagen != null && imagen.length > 0) {
+                        InputStream inputStream = new ByteArrayInputStream(imagen);
+                        BufferedImage bufferedImage = ImageIO.read(inputStream);
+                        if (bufferedImage != null) {
+                            mIcono = new ImageIcon(bufferedImage.getScaledInstance(60, 60, BufferedImage.SCALE_SMOOTH));
+                            rowHeight = Math.max(rowHeight, mIcono.getIconHeight());
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // Puedes manejar el error aquí, como mostrar un mensaje de error o asignar una imagen predeterminada.
+                }
+                Object[] fila = {usuarioDTO.getTelefono(), mIcono};
+                model.addRow(fila);
+            }
+        }
+
+        tblChats.setModel(model);
+        tblChats.getColumnModel().getColumn(1).setCellRenderer(new RenderImagen());
+
+        // Ajustar la altura de las filas
+        tblChats.setRowHeight(rowHeight);
     }
 
     /**
@@ -32,10 +108,12 @@ public class FrmCrearChat extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnCrearChat = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        txtTelefono = new javax.swing.JTextField();
+        txtAsignarNombre = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblChats = new javax.swing.JTable();
         btnVolver = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        txtTelefono = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,19 +150,24 @@ public class FrmCrearChat extends javax.swing.JFrame {
         jLabel2.setText("Chats");
 
         btnCrearChat.setText("Crear Chat");
+        btnCrearChat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearChatActionPerformed(evt);
+            }
+        });
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 51, 51));
         jLabel3.setText("Telefono");
 
-        txtTelefono.addActionListener(new java.awt.event.ActionListener() {
+        txtAsignarNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTelefonoActionPerformed(evt);
+                txtAsignarNombreActionPerformed(evt);
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblChats.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -92,11 +175,11 @@ public class FrmCrearChat extends javax.swing.JFrame {
                 {null, null}
             },
             new String [] {
-                "Nombre Usuario", "Telefono"
+                "Telefono", "Imagen Perfil"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false
@@ -110,9 +193,30 @@ public class FrmCrearChat extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable1);
+        jScrollPane3.setViewportView(tblChats);
 
         btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel4.setText("Asignar Nombre");
+
+        txtTelefono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTelefonoActionPerformed(evt);
+            }
+        });
+        txtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTelefonoKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -123,15 +227,17 @@ public class FrmCrearChat extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(jLabel2)
-                    .addComponent(txtTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtAsignarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(btnVolver)
-                        .addGap(138, 138, 138)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnCrearChat))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,15 +249,20 @@ public class FrmCrearChat extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
-                        .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtAsignarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(29, 29, 29)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(31, 31, 31)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCrearChat)
-                    .addComponent(btnVolver))
-                .addContainerGap(31, Short.MAX_VALUE))
+                    .addComponent(btnVolver)
+                    .addComponent(btnCrearChat))
+                .addGap(35, 35, 35))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -172,47 +283,92 @@ public class FrmCrearChat extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtAsignarNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAsignarNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAsignarNombreActionPerformed
+
     private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTelefonoActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmCrearChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmCrearChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmCrearChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmCrearChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+    private void txtTelefonoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyReleased
+        // TODO add your handling code here:
+        String telefono = txtTelefono.getText();
+        List<UsuarioDTO> usuarios = new ArrayList<>();
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmCrearChat().setVisible(true);
+        try {
+            usuarios = usuarioBO.consultarUsuarioTelefono(telefono);
+        } catch (Exception ex) {
+
+        }
+        accionesTabla(usuarios);
+    }//GEN-LAST:event_txtTelefonoKeyReleased
+
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        // TODO add your handling code here:
+        FrmChats frmChats = new FrmChats(usuario);
+        frmChats.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnCrearChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearChatActionPerformed
+        // TODO add your handling code here:
+        ChatNuevoDTO chatNuevoDTO = new ChatNuevoDTO();
+        int filaSeleccionada = tblChats.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            String telefono = String.valueOf(tblChats.getValueAt(filaSeleccionada, 0));
+            String asignarNombre = txtAsignarNombre.getText();
+            chatNuevoDTO.setTelefonoReceptor(telefono);
+            chatNuevoDTO.setIdRemitente(usuario.getIdUsuario());
+            chatNuevoDTO.setNombreChat(asignarNombre);
+            try {
+                chatBO.agregarChat(chatNuevoDTO);
+            } catch (Exception ex) {
+
             }
-        });
-    }
+            FrmChats frmChats = new FrmChats(usuario);
+            frmChats.setVisible(true);
+            this.dispose();
+        }
+
+    }//GEN-LAST:event_btnCrearChatActionPerformed
+
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(FrmCrearChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(FrmCrearChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(FrmCrearChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(FrmCrearChat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new FrmCrearChat().setVisible(true);
+//            }
+//        });
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrearChat;
@@ -220,10 +376,12 @@ public class FrmCrearChat extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblChats;
+    private javax.swing.JTextField txtAsignarNombre;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
 }

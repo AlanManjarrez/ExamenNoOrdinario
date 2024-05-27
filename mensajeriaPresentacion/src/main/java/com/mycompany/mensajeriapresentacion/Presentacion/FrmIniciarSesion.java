@@ -211,7 +211,7 @@ public class FrmIniciarSesion extends javax.swing.JFrame {
         
         UsuarioDTO usuarioConsultado = null;
         try {
-            usuarioConsultado = usuarioBO.consultarUsuario(usuarioDTO);
+            usuarioConsultado = usuarioBO.consultarUsuarioTelefonoContrasena(usuarioDTO);
         } catch (Exception ex) {
             
         }

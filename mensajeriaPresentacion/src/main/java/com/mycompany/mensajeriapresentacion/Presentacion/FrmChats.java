@@ -18,6 +18,7 @@ public class FrmChats extends javax.swing.JFrame {
      * Creates new form FrmIniciarSesion
      */
     public FrmChats(UsuarioDTO usuarioConsultado) {
+        this.usuarioConsultado = usuarioConsultado;
         initComponents();
     }
 
@@ -150,7 +151,7 @@ public class FrmChats extends javax.swing.JFrame {
 
     private void btnCrearChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearChatActionPerformed
         // TODO add your handling code here:
-        FrmCrearChat frmCrearChat = new FrmCrearChat();
+        FrmCrearChat frmCrearChat = new FrmCrearChat(usuarioConsultado);
         frmCrearChat.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCrearChatActionPerformed

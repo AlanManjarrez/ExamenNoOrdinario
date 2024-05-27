@@ -25,7 +25,7 @@ public class UsuarioDTO {
     private String contrasena;
     private String sexo;
     private String fechaNacimiento;
-    private String imagenPerfil;
+    private byte[] imagenPerfil;
 
     /**
      * Constructor por defecto de la clase UsuarioDTO
@@ -42,7 +42,7 @@ public class UsuarioDTO {
      * @param fechaNacimiento la fecha de nacimiento del usuarioDTO
      * @param imagenPerfil la URL de la imagen de perfil del usuarioDTO
      */
-    public UsuarioDTO(String telefono, String contrasena, String sexo, String fechaNacimiento, String imagenPerfil) {
+    public UsuarioDTO(String telefono, String contrasena, String sexo, String fechaNacimiento, byte[] imagenPerfil) {
         this.telefono = telefono;
         this.contrasena = contrasena;
         this.sexo = sexo;
@@ -152,7 +152,7 @@ public class UsuarioDTO {
      *
      * @return la URL de la imagen de perfil del usuarioDTO
      */
-    public String getImagenPerfil() {
+    public byte[] getImagenPerfil() {
         return imagenPerfil;
     }
 
@@ -161,7 +161,7 @@ public class UsuarioDTO {
      *
      * @param imagenPerfil la nueva URL de la imagen de perfil del usuarioDTO
      */
-    public void setImagenPerfil(String imagenPerfil) {
+    public void setImagenPerfil(byte[] imagenPerfil) {
         this.imagenPerfil = imagenPerfil;
     }
 

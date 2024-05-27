@@ -8,6 +8,7 @@ import com.mycompany.mensajeriapersistencia.PersistenciaException.PersistenciaEx
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,7 +53,7 @@ public class UsuarioDAO implements IUsuarioDAO {
             conn.setString(2, usuario.getContrasena());
             conn.setString(3, usuario.getSexo());
             conn.setString(4, usuario.getFechaNacimiento());
-            conn.setString(5, usuario.getImagenPerfil());
+            conn.setBytes(5, usuario.getImagenPerfil());
 
             int registro = conn.executeUpdate();
             LOG.log(Level.INFO, "Se agregaron con éxito {0} ", registro);
@@ -95,7 +96,7 @@ public class UsuarioDAO implements IUsuarioDAO {
             conn.setString(3, usuario.getContrasena());
             conn.setString(4, usuario.getSexo());
             conn.setString(5, usuario.getFechaNacimiento());
-            conn.setString(6, usuario.getImagenPerfil());
+            conn.setBytes(6, usuario.getImagenPerfil());
 
             int registro = conn.executeUpdate();
             LOG.log(Level.INFO, "Se actualizó con éxito {0} ", registro);
@@ -140,7 +141,7 @@ public class UsuarioDAO implements IUsuarioDAO {
                 usuario.setContrasena(rs.getString("CONTRASENA"));
                 usuario.setSexo(rs.getString("SEXO"));
                 usuario.setFechaNacimiento(rs.getString("FECHA_NACIMIENTO"));
-                usuario.setImagenPerfil(rs.getString("IMAGEN_PERFIL"));
+                usuario.setImagenPerfil(rs.getBytes("IMAGEN_PERFIL"));
                 return usuario;
             } else {
                 throw new PersistenciaException("No se encontró ningún usuario con el teléfono proporcionado");
@@ -159,26 +160,30 @@ public class UsuarioDAO implements IUsuarioDAO {
      * persistencia
      */
     @Override
-    public Usuario consultarUsuarioTelefono(String telefono) throws PersistenciaException {
-        try ( Connection con = this.conexion.crearConexion();  CallableStatement cs = con.prepareCall("{call consultar_usuario_telefono(?)}")) {
+    public List<Usuario> consultarUsuarioTelefono(String telefono) throws PersistenciaException {
+        List<Usuario> usuarios = new ArrayList<>();
 
-            cs.setString(1, telefono);
-            ResultSet rs = cs.executeQuery();
+    try (Connection con = this.conexion.crearConexion(); 
+         CallableStatement cs = con.prepareCall("{call consultar_usuario_telefono(?)}")) {
 
-            if (rs.next()) {
-                Usuario usuario = new Usuario();
-                usuario.setIdUsuario(rs.getInt("ID_USUARIO"));
-                usuario.setTelefono(rs.getString("TELEFONO"));
-                usuario.setContrasena(rs.getString("CONTRASENA"));
-                usuario.setSexo(rs.getString("SEXO"));
-                usuario.setFechaNacimiento(rs.getString("FECHA_NACIMIENTO"));
-                usuario.setImagenPerfil(rs.getString("IMAGEN_PERFIL"));
-                return usuario;
-            } else {
-                throw new PersistenciaException("No se encontró ningún usuario con el teléfono proporcionado");
-            }
-        } catch (Exception e) {
-            throw new PersistenciaException("Error al consultar el usuario", e);
+        cs.setString(1, telefono);
+        ResultSet rs = cs.executeQuery();
+
+        while (rs.next()) {
+            Usuario usuario = new Usuario();
+            usuario.setIdUsuario(rs.getInt("ID_USUARIO"));
+            usuario.setTelefono(rs.getString("TELEFONO"));
+            usuario.setContrasena(rs.getString("CONTRASENA"));
+            usuario.setSexo(rs.getString("SEXO"));
+            usuario.setFechaNacimiento(rs.getString("FECHA_NACIMIENTO"));
+            usuario.setImagenPerfil(rs.getBytes("IMAGEN_PERFIL"));
+            usuarios.add(usuario);
         }
+
+    } catch (Exception e) {
+        throw new PersistenciaException("Error al consultar los usuarios", e);
+    }
+
+    return usuarios;
     }
 }
