@@ -79,7 +79,6 @@ public class FrmCrearChat extends javax.swing.JFrame {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    // Puedes manejar el error aquí, como mostrar un mensaje de error o asignar una imagen predeterminada.
                 }
                 Object[] fila = {usuarioDTO.getTelefono(), mIcono};
                 model.addRow(fila);

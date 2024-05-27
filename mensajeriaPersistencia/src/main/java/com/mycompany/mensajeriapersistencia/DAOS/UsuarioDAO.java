@@ -1,4 +1,3 @@
-
 package com.mycompany.mensajeriapersistencia.DAOS;
 
 import com.mycompany.mensajeriapersistencia.Conexion.Conexion;
@@ -14,22 +13,24 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Clase que implementa la interfaz IUsuarioDAO y proporciona la lógica para interactuar 
- * con la capa de persistencia de datos para la entidad Usuario en el sistema.
- * 
- * Esta clase se encarga de realizar operaciones como agregar, actualizar y consultar usuarios 
- * en la base de datos. Utiliza una instancia de la interfaz IConexion para establecer y manejar 
- * la conexión con la base de datos.
- * 
- * Los errores relacionados con la persistencia de datos son registrados utilizando un 
- * {@link Logger} para facilitar el seguimiento y la depuración.
- * 
+ * Clase que implementa la interfaz IUsuarioDAO y proporciona la lógica para
+ * interactuar con la capa de persistencia de datos para la entidad Usuario en
+ * el sistema.
+ *
+ * Esta clase se encarga de realizar operaciones como agregar, actualizar y
+ * consultar usuarios en la base de datos. Utiliza una instancia de la interfaz
+ * IConexion para establecer y manejar la conexión con la base de datos.
+ *
+ * Los errores relacionados con la persistencia de datos son registrados
+ * utilizando un {@link Logger} para facilitar el seguimiento y la depuración.
+ *
  * @author Jose Alan Manjarrez Ontiveros 228982
  */
 public class UsuarioDAO implements IUsuarioDAO {
 
     IConexion conexion;
     private static final Logger LOG = Logger.getLogger(Usuario.class.getName());
+
     /**
      * Constructor por defecto de la clase UsuarioDAO.
      */
@@ -47,22 +48,18 @@ public class UsuarioDAO implements IUsuarioDAO {
      */
     @Override
     public Usuario agregarUsuario(Usuario usuario) throws PersistenciaException {
-        try ( Connection con = this.conexion.crearConexion();  CallableStatement conn = con.prepareCall("{call agregar_usuario(?,?,?,?,?)}")) {
+        try ( Connection con = this.conexion.crearConexion();  CallableStatement conn = con.prepareCall("{call agregar_usuario(?,?,?,?,?,?)}")) {
 
             conn.setString(1, usuario.getTelefono());
             conn.setString(2, usuario.getContrasena());
             conn.setString(3, usuario.getSexo());
             conn.setString(4, usuario.getFechaNacimiento());
             conn.setBytes(5, usuario.getImagenPerfil());
+            conn.registerOutParameter(6, java.sql.Types.INTEGER);
 
-            int registro = conn.executeUpdate();
-            LOG.log(Level.INFO, "Se agregaron con éxito {0} ", registro);
+            conn.executeUpdate();
 
-            ResultSet registroG = conn.getGeneratedKeys();
-            int idGenerado = 0;
-            if (registroG.next()) {
-                idGenerado = registroG.getInt(1);
-            }
+            int idGenerado = conn.getInt(6);
 
             Usuario usuarioNuevo = new Usuario(idGenerado,
                     usuario.getTelefono(),
@@ -117,7 +114,8 @@ public class UsuarioDAO implements IUsuarioDAO {
     }
 
     /**
-     * Consulta un usuario en el sistema utilizando su número de teléfono y contraseña.
+     * Consulta un usuario en el sistema utilizando su número de teléfono y
+     * contraseña.
      *
      * @param telefono el número de teléfono del usuario a consultar
      * @param contrasena la contraseña del usuario a consultar
@@ -150,6 +148,7 @@ public class UsuarioDAO implements IUsuarioDAO {
             throw new PersistenciaException("Error al consultar el usuario", e);
         }
     }
+
     /**
      * Consulta un usuario en el sistema utilizando su número de teléfono.
      *
@@ -163,27 +162,26 @@ public class UsuarioDAO implements IUsuarioDAO {
     public List<Usuario> consultarUsuarioTelefono(String telefono) throws PersistenciaException {
         List<Usuario> usuarios = new ArrayList<>();
 
-    try (Connection con = this.conexion.crearConexion(); 
-         CallableStatement cs = con.prepareCall("{call consultar_usuario_telefono(?)}")) {
+        try ( Connection con = this.conexion.crearConexion();  CallableStatement cs = con.prepareCall("{call consultar_usuario_telefono(?)}")) {
 
-        cs.setString(1, telefono);
-        ResultSet rs = cs.executeQuery();
+            cs.setString(1, telefono);
+            ResultSet rs = cs.executeQuery();
 
-        while (rs.next()) {
-            Usuario usuario = new Usuario();
-            usuario.setIdUsuario(rs.getInt("ID_USUARIO"));
-            usuario.setTelefono(rs.getString("TELEFONO"));
-            usuario.setContrasena(rs.getString("CONTRASENA"));
-            usuario.setSexo(rs.getString("SEXO"));
-            usuario.setFechaNacimiento(rs.getString("FECHA_NACIMIENTO"));
-            usuario.setImagenPerfil(rs.getBytes("IMAGEN_PERFIL"));
-            usuarios.add(usuario);
+            while (rs.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setIdUsuario(rs.getInt("ID_USUARIO"));
+                usuario.setTelefono(rs.getString("TELEFONO"));
+                usuario.setContrasena(rs.getString("CONTRASENA"));
+                usuario.setSexo(rs.getString("SEXO"));
+                usuario.setFechaNacimiento(rs.getString("FECHA_NACIMIENTO"));
+                usuario.setImagenPerfil(rs.getBytes("IMAGEN_PERFIL"));
+                usuarios.add(usuario);
+            }
+
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al consultar los usuarios", e);
         }
 
-    } catch (Exception e) {
-        throw new PersistenciaException("Error al consultar los usuarios", e);
-    }
-
-    return usuarios;
+        return usuarios;
     }
 }

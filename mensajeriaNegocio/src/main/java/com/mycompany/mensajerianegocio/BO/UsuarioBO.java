@@ -65,6 +65,7 @@ public class UsuarioBO implements IUsuarioBO {
         Usuario usuarioCreado = usuario.agregarUsuario(convertirEntidadUsuario(usuarioNuevo.getUsuarioDTO()));
         Direccion direccionConvertida = convertirEntidadDireccion(usuarioNuevo.getDireccionDTO());
         direccionConvertida.setIdUsuario(usuarioCreado.getIdUsuario());
+        direccion.agregarDireccion(direccionConvertida);
         return convertirDTOUsuario(usuarioCreado);
     }
 

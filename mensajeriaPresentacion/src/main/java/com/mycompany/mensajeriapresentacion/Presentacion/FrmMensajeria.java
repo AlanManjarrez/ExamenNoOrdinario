@@ -6,6 +6,8 @@ package com.mycompany.mensajeriapresentacion.Presentacion;
 
 import com.mycompany.mensajerianegocio.BO.ChatBO;
 import com.mycompany.mensajerianegocio.BO.IChatBO;
+import com.mycompany.mensajerianegocio.BO.IUsuarioBO;
+import com.mycompany.mensajerianegocio.BO.UsuarioBO;
 import com.mycompany.mensajerianegocio.DTOS.ChatDTO;
 import com.mycompany.mensajerianegocio.DTOS.MensajeDTO;
 import com.mycompany.mensajerianegocio.DTOS.MensajeNuevoDTO;
@@ -14,13 +16,18 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
@@ -33,14 +40,17 @@ public class FrmMensajeria extends javax.swing.JFrame {
 
     private UsuarioDTO usuarioConsultado;
     private IChatBO chatBO;
+    private IUsuarioBO usuarioBO;
 
     /**
      * Creates new form FrmIniciarSesion
      */
     public FrmMensajeria(UsuarioDTO usuarioConsultado, String chat) {
         this.chatBO = new ChatBO();
+        this.usuarioBO = new UsuarioBO();
         this.usuarioConsultado = usuarioConsultado;
         initComponents();
+        labelNombreUsuario.setText(chat);
 
         final ChatDTO[] chatConsultado = {null};
 
@@ -81,6 +91,22 @@ public class FrmMensajeria extends javax.swing.JFrame {
 
             }
         });
+//        UsuarioDTO usuarioDTO = usuario.
+//        ImageIcon mIcono = null;
+//        try {
+//            byte[] imagen = usuarioDTO.getImagenPerfil();
+//            if (imagen != null && imagen.length > 0) {
+//                InputStream inputStream = new ByteArrayInputStream(imagen);
+//                BufferedImage bufferedImage = ImageIO.read(inputStream);
+//                if (bufferedImage != null) {
+//                    mIcono = new ImageIcon(bufferedImage.getScaledInstance(60, 60, BufferedImage.SCALE_SMOOTH));
+//                    rowHeight = Math.max(rowHeight, mIcono.getIconHeight());
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            // Puedes manejar el error aquí, como mostrar un mensaje de error o asignar una imagen predeterminada.
+//        }
     }
 
     private void llenarLista(int idChat, String nombreChat) {
@@ -125,10 +151,11 @@ public class FrmMensajeria extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         txtMensaje = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        labelImagen = new javax.swing.JLabel();
+        labelNombreUsuario = new javax.swing.JLabel();
         scrollMensaje = new javax.swing.JScrollPane();
         txtaMensaje = new javax.swing.JTextArea();
+        btnVolver = new javax.swing.JButton();
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
@@ -170,31 +197,40 @@ public class FrmMensajeria extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel2.setText("Chats");
+        labelImagen.setBackground(new java.awt.Color(255, 255, 255));
+        labelImagen.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        labelImagen.setForeground(new java.awt.Color(51, 51, 51));
+        labelImagen.setText("Chats");
 
-        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel4.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel4.setText("Chats");
+        labelNombreUsuario.setBackground(new java.awt.Color(255, 255, 255));
+        labelNombreUsuario.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        labelNombreUsuario.setForeground(new java.awt.Color(51, 51, 51));
+        labelNombreUsuario.setText("Chats");
 
         txtaMensaje.setColumns(20);
         txtaMensaje.setRows(5);
         scrollMensaje.setViewportView(txtaMensaje);
+
+        btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel2)
+                        .addComponent(labelImagen)
                         .addGap(26, 26, 26)
-                        .addComponent(jLabel4))
+                        .addComponent(labelNombreUsuario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnVolver))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,9 +243,10 @@ public class FrmMensajeria extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4))
-                .addGap(29, 29, 29)
+                    .addComponent(labelImagen)
+                    .addComponent(labelNombreUsuario)
+                    .addComponent(btnVolver))
+                .addGap(27, 27, 27)
                 .addComponent(scrollMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(txtMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -237,6 +274,13 @@ public class FrmMensajeria extends javax.swing.JFrame {
     private void txtMensajeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMensajeKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMensajeKeyTyped
+
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        // TODO add your handling code here:
+        FrmChats frmChats = new FrmChats(usuarioConsultado);
+        frmChats.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnVolverActionPerformed
 
 //    /**
 //     * @param args the command line arguments
@@ -275,12 +319,13 @@ public class FrmMensajeria extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel labelImagen;
+    private javax.swing.JLabel labelNombreUsuario;
     private javax.swing.JScrollPane scrollMensaje;
     private javax.swing.JTextField txtMensaje;
     private javax.swing.JTextArea txtaMensaje;

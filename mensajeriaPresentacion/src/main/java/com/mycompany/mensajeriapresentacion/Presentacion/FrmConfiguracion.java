@@ -166,7 +166,7 @@ public class FrmConfiguracion extends javax.swing.JFrame {
 
     private void btnCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCuentaActionPerformed
         // TODO add your handling code here:
-        FrmConsultarCuenta frmConsultarCuenta = new FrmConsultarCuenta();
+        FrmConsultarCuenta frmConsultarCuenta = new FrmConsultarCuenta(usuarioConsultado);
         frmConsultarCuenta.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCuentaActionPerformed
