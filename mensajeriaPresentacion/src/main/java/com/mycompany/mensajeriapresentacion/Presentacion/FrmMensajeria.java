@@ -41,7 +41,7 @@ public class FrmMensajeria extends javax.swing.JFrame {
         this.chatBO = new ChatBO();
         this.usuarioConsultado = usuarioConsultado;
         initComponents();
-        
+
         final ChatDTO[] chatConsultado = {null};
 
         try {
@@ -73,6 +73,7 @@ public class FrmMensajeria extends javax.swing.JFrame {
                     try {
                         MensajeDTO mensajeDTO = chatBO.agregarMensaje(mensajeNuevoDTO);
                         llenarLista(chatConsultado[0].getIdChat(), chat);
+                        txtMensaje.setText("");
                     } catch (Exception ex) {
 
                     }
@@ -83,23 +84,31 @@ public class FrmMensajeria extends javax.swing.JFrame {
     }
 
     private void llenarLista(int idChat, String nombreChat) {
+        int anchoMaximo = 100; // Ajusta esto según sea necesario
+        String alineacionTexto;
+        String alineacionFecha;
+
+        this.txtaMensaje.setText("");
         try {
             List<MensajeDTO> mensajes = chatBO.consultarMensajesChat(idChat);
 
             for (MensajeDTO mensajeDTO : mensajes) {
-                String nombre = "";
+                String nombre;
                 if (mensajeDTO.getIdUsuario() == usuarioConsultado.getIdUsuario()) {
                     nombre = "Tu";
+                    alineacionTexto = String.format("%" + anchoMaximo + "s", String.format("%s: %s", nombre, mensajeDTO.getTexto()));
+                    alineacionFecha = String.format("%" + anchoMaximo + "s", mensajeDTO.getFechaHoraRegistro());
                 } else {
                     nombre = nombreChat;
+                    alineacionTexto = String.format("%-1s", String.format("%s: %s", nombre, mensajeDTO.getTexto()));
+                    alineacionFecha = String.format("%-1s", mensajeDTO.getFechaHoraRegistro());
                 }
-                String estructura = String.format("%s:  %s  \n%s\n", nombre, mensajeDTO.getTexto(), mensajeDTO.getFechaHoraRegistro());
-                this.txtaMensaje.append(estructura);
+                this.txtaMensaje.append(alineacionTexto + "\n");
+                this.txtaMensaje.append(alineacionFecha + "\n");
             }
         } catch (Exception ex) {
 
         }
-
     }
 
     /**
