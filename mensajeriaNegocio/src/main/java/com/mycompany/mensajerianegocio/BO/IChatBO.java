@@ -25,4 +25,6 @@ public interface IChatBO {
     public List<Participante> consultarParticipante(int idParticipante)throws Exception;
     
     public MensajeDTO agregarMensaje(MensajeNuevoDTO mensajeDTO) throws Exception;
+    
+    public List<MensajeDTO> consultarMensajesChat(int idChat) throws Exception;
 }

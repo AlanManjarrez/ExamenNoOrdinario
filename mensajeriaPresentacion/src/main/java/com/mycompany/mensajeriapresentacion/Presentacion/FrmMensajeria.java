@@ -7,6 +7,7 @@ package com.mycompany.mensajeriapresentacion.Presentacion;
 import com.mycompany.mensajerianegocio.BO.ChatBO;
 import com.mycompany.mensajerianegocio.BO.IChatBO;
 import com.mycompany.mensajerianegocio.DTOS.ChatDTO;
+import com.mycompany.mensajerianegocio.DTOS.MensajeDTO;
 import com.mycompany.mensajerianegocio.DTOS.MensajeNuevoDTO;
 import com.mycompany.mensajerianegocio.DTOS.UsuarioDTO;
 import java.awt.Color;
@@ -40,7 +41,7 @@ public class FrmMensajeria extends javax.swing.JFrame {
         this.chatBO = new ChatBO();
         this.usuarioConsultado = usuarioConsultado;
         initComponents();
-
+        
         final ChatDTO[] chatConsultado = {null};
 
         try {
@@ -52,9 +53,9 @@ public class FrmMensajeria extends javax.swing.JFrame {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
-
+        llenarLista(chatConsultado[0].getIdChat(), chat);
         txtMensaje.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -65,19 +66,40 @@ public class FrmMensajeria extends javax.swing.JFrame {
                     MensajeNuevoDTO mensajeNuevoDTO = new MensajeNuevoDTO();
                     mensajeNuevoDTO.setIdChat(chatConsultado[0].getIdChat());
                     System.out.println(chatConsultado[0].getIdChat());
-                    mensajeNuevoDTO.setTexto(inputText); 
+                    mensajeNuevoDTO.setTexto(inputText);
                     mensajeNuevoDTO.setIdUsuario(usuarioConsultado.getIdUsuario());
                     mensajeNuevoDTO.setImagenMensaje(null);
-                    
+
                     try {
-                        chatBO.agregarMensaje(mensajeNuevoDTO);
+                        MensajeDTO mensajeDTO = chatBO.agregarMensaje(mensajeNuevoDTO);
+                        llenarLista(chatConsultado[0].getIdChat(), chat);
                     } catch (Exception ex) {
-                        
+
                     }
-                } 
-                
+                }
+
             }
         });
+    }
+
+    private void llenarLista(int idChat, String nombreChat) {
+        try {
+            List<MensajeDTO> mensajes = chatBO.consultarMensajesChat(idChat);
+
+            for (MensajeDTO mensajeDTO : mensajes) {
+                String nombre = "";
+                if (mensajeDTO.getIdUsuario() == usuarioConsultado.getIdUsuario()) {
+                    nombre = "Tu";
+                } else {
+                    nombre = nombreChat;
+                }
+                String estructura = String.format("%s:  %s  \n%s\n", nombre, mensajeDTO.getTexto(), mensajeDTO.getFechaHoraRegistro());
+                this.txtaMensaje.append(estructura);
+            }
+        } catch (Exception ex) {
+
+        }
+
     }
 
     /**

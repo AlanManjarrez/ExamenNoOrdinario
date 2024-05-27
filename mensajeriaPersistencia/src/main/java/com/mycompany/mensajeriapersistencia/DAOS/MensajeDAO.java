@@ -172,4 +172,30 @@ public class MensajeDAO implements IMensajeDAO {
         return mensajes;
     }
 
+    @Override
+    public List<Mensaje> consultarMensajeChat(int idChat) throws PersistenciaException {
+        List<Mensaje> mensajes = new ArrayList<>();
+        try ( Connection con = this.conexion.crearConexion();  CallableStatement cs = con.prepareCall("{call consultar_mensaje_chat(?)}")) {
+
+            cs.setInt(1, idChat);
+            ResultSet rs = cs.executeQuery();
+
+            while (rs.next()) {
+                int idMensaje = rs.getInt("ID_MENSAJE");
+                String mensajeTexto = rs.getString("TEXTO");
+                String fechaHoraRegistro = rs.getString("FECHA_HORA_REGISTRO");
+                byte[] imagenMensaje = rs.getBytes("IMAGEN_MENSAJE");
+                int idUsuario = rs.getInt("ID_USUARIO");
+                int idChats = rs.getInt("ID_CHAT");
+
+                Mensaje mensaje = new Mensaje(idMensaje, mensajeTexto, fechaHoraRegistro, imagenMensaje, idUsuario, idChats);
+                mensajes.add(mensaje);
+            }
+
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE, "Error al consultar el mensaje", e);
+            throw new PersistenciaException("Error al consultar el mensaje", e);
+        }
+        return mensajes;
+    }
 }

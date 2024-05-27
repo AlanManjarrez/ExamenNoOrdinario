@@ -129,4 +129,14 @@ public class ChatBO implements IChatBO {
         return convertirAMensajeDTO(mensajeCreado);
     }
 
+    @Override
+    public List<MensajeDTO> consultarMensajesChat(int idChat) throws Exception {
+        
+        List<MensajeDTO> mensajes = new ArrayList<>();
+        for (Mensaje mensaje : mensajeDAO.consultarMensajeChat(idChat)) {
+            mensajes.add(convertirAMensajeDTO(mensaje));
+        }
+        return mensajes;
+    }
+
 }

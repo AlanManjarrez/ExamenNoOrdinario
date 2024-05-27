@@ -64,4 +64,6 @@ public interface IMensajeDAO {
      * persistencia
      */
     public List<Mensaje> consultarMensaje(String texto) throws PersistenciaException;
+
+    public List<Mensaje> consultarMensajeChat(int idChat) throws PersistenciaException;
 }
