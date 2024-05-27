@@ -5,20 +5,10 @@
 package com.mycompany.mensajerianegocio.DTOS;
 
 /**
- * Clase que representa el Data Transfer Object (DTO) para la entidad Mensaje.
  *
- * Esta clase se utiliza para transferir datos de mensaje entre las capas de la
- * aplicación sin exponer directamente la entidad del modelo de datos. Incluye
- * propiedades básicas del mensaje como idMensaje, texto, fechaHoraRegistro,
- * imagenMensaje, idUsuario e idChat.
- *
- * Los objetos de esta clase son utilizados para encapsular y transportar datos
- * relacionados con el mensaje a través de los diferentes componentes del
- * sistema.
- *
- * @autor Jose Alan Manjarrez Ontiveros 228982
+ * @author uirtis
  */
-public class MensajeDTO {
+public class MensajeNuevoDTO {
 
     private int idMensaje;
     private String texto;
@@ -30,7 +20,7 @@ public class MensajeDTO {
     /**
      * Constructor por defecto de la clase MensajeDTO.
      */
-    public MensajeDTO() {
+    public MensajeNuevoDTO() {
     }
 
     /**
@@ -44,7 +34,7 @@ public class MensajeDTO {
      * @param idUsuario el identificador del usuario que envió el mensajeDTO
      * @param idChat el identificador del chat al que pertenece el mensajeDTO
      */
-    public MensajeDTO(String texto, String fechaHoraRegistro, byte[] imagenMensaje, int idUsuario, int idChat) {
+    public MensajeNuevoDTO(String texto, String fechaHoraRegistro, byte[] imagenMensaje, int idUsuario, int idChat) {
         this.texto = texto;
         this.fechaHoraRegistro = fechaHoraRegistro;
         this.imagenMensaje = imagenMensaje;
@@ -59,7 +49,7 @@ public class MensajeDTO {
      * @param idMensaje el identificador del mensajeDTO
      * @param texto el texto del mensajeDTO
      */
-    public MensajeDTO(int idMensaje, String texto) {
+    public MensajeNuevoDTO(int idMensaje, String texto) {
         this.idMensaje = idMensaje;
         this.texto = texto;
     }
@@ -74,7 +64,7 @@ public class MensajeDTO {
      * @param fechaHoraRegistro la fecha y hora de registro del mensajeDTO
      * @param imagenMensaje la URL de una imagen asociada al mensajeDTO
      */
-    public MensajeDTO(int idMensaje, String texto, String fechaHoraRegistro, byte[] imagenMensaje) {
+    public MensajeNuevoDTO(int idMensaje, String texto, String fechaHoraRegistro, byte[] imagenMensaje) {
         this.idMensaje = idMensaje;
         this.texto = texto;
         this.fechaHoraRegistro = fechaHoraRegistro;

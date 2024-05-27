@@ -7,11 +7,16 @@ package com.mycompany.mensajeriapresentacion.Presentacion;
 import com.mycompany.mensajerianegocio.BO.ChatBO;
 import com.mycompany.mensajerianegocio.BO.IChatBO;
 import com.mycompany.mensajerianegocio.DTOS.ChatDTO;
+import com.mycompany.mensajerianegocio.DTOS.MensajeNuevoDTO;
 import com.mycompany.mensajerianegocio.DTOS.UsuarioDTO;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -23,7 +28,7 @@ import javax.swing.event.ListSelectionEvent;
  *
  * @author uirtis
  */
-public class FrmChats extends javax.swing.JFrame {
+public class FrmMensajeria extends javax.swing.JFrame {
 
     private UsuarioDTO usuarioConsultado;
     private IChatBO chatBO;
@@ -31,51 +36,48 @@ public class FrmChats extends javax.swing.JFrame {
     /**
      * Creates new form FrmIniciarSesion
      */
-    public FrmChats(UsuarioDTO usuarioConsultado) {
+    public FrmMensajeria(UsuarioDTO usuarioConsultado, String chat) {
         this.chatBO = new ChatBO();
         this.usuarioConsultado = usuarioConsultado;
         initComponents();
+
+        final ChatDTO[] chatConsultado = {null};
+
         try {
-            llenarLista();
-        } catch (Exception e) {
-        }
-        listChats.addListSelectionListener((ListSelectionEvent e) -> {
-            if (!e.getValueIsAdjusting()) {
-                int index = listChats.getSelectedIndex();
-                if (index != -1) {
-                    String elementoSeleccionado = listChats.getModel().getElementAt(index);
-                    FrmMensajeria frmMensajeria = new FrmMensajeria(usuarioConsultado, elementoSeleccionado);
-                    frmMensajeria.setVisible(true);
-                    this.dispose();
+            List<ChatDTO> chats = chatBO.consultarChat(usuarioConsultado.getIdUsuario());
+            for (ChatDTO chatDTO : chats) {
+                if (chatDTO.getNombreUsuario().equalsIgnoreCase(chat)) {
+                    chatConsultado[0] = chatDTO;
+                    break; // Encontramos el chat, salimos del loop
                 }
             }
-        });
-
-    }
-
-    public void llenarLista() throws Exception {
-
-        DefaultListModel modeloLista = new DefaultListModel();
-
-        List<ChatDTO> chats = chatBO.consultarChat(usuarioConsultado.getIdUsuario());
-        System.out.println(chats);
-        for (ChatDTO chatDTO : chats) {
-            Object[] fila = {chatDTO.getNombreUsuario()};
-            modeloLista.addElement(chatDTO.getNombreUsuario());
+        } catch (Exception e) {
+            e.printStackTrace(); 
         }
-        listChats.setCellRenderer(new DefaultListCellRenderer() {
-            private static final long serialVersionUID = 1L;
-            private Border border = BorderFactory.createLineBorder(Color.BLACK);
 
+        txtMensaje.addActionListener(new ActionListener() {
             @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                setBorder(border); // Aplicar borde al componente
-                return this;
+            public void actionPerformed(ActionEvent e) {
+                // Obtener el texto ingresado
+                String inputText = txtMensaje.getText();
+
+                if (chatConsultado[0] != null) {
+                    MensajeNuevoDTO mensajeNuevoDTO = new MensajeNuevoDTO();
+                    mensajeNuevoDTO.setIdChat(chatConsultado[0].getIdChat());
+                    System.out.println(chatConsultado[0].getIdChat());
+                    mensajeNuevoDTO.setTexto(inputText); 
+                    mensajeNuevoDTO.setIdUsuario(usuarioConsultado.getIdUsuario());
+                    mensajeNuevoDTO.setImagenMensaje(null);
+                    
+                    try {
+                        chatBO.agregarMensaje(mensajeNuevoDTO);
+                    } catch (Exception ex) {
+                        
+                    }
+                } 
+                
             }
         });
-        listChats.setModel(modeloLista);
-        scrollChat.setViewportView(listChats);
     }
 
     /**
@@ -87,15 +89,20 @@ public class FrmChats extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
+        txtMensaje = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        scrollChat = new javax.swing.JScrollPane();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listChats = new javax.swing.JList<>();
-        btnCrearChat = new javax.swing.JButton();
-        btnConfiguracion = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        scrollMensaje = new javax.swing.JScrollPane();
+        txtaMensaje = new javax.swing.JTextArea();
+
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel3.setText("Chats");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -114,7 +121,7 @@ public class FrmChats extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(287, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,60 +133,56 @@ public class FrmChats extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
+        txtMensaje.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMensajeKeyTyped(evt);
+            }
+        });
+
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
         jLabel2.setText("Chats");
 
-        jScrollPane1.setViewportView(listChats);
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel4.setText("Chats");
 
-        scrollChat.setViewportView(jScrollPane1);
-
-        btnCrearChat.setText("Crear Chat");
-        btnCrearChat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearChatActionPerformed(evt);
-            }
-        });
-
-        btnConfiguracion.setText("Configuracion");
-        btnConfiguracion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConfiguracionActionPerformed(evt);
-            }
-        });
+        txtaMensaje.setColumns(20);
+        txtaMensaje.setRows(5);
+        scrollMensaje.setViewportView(txtaMensaje);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(btnConfiguracion)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnCrearChat, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(scrollChat, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(45, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(jLabel2)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(scrollMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jLabel2)
-                .addGap(26, 26, 26)
-                .addComponent(scrollChat, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCrearChat)
-                    .addComponent(btnConfiguracion))
-                .addContainerGap(29, Short.MAX_VALUE))
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4))
+                .addGap(29, 29, 29)
+                .addComponent(scrollMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(txtMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -200,20 +203,9 @@ public class FrmChats extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfiguracionActionPerformed
+    private void txtMensajeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMensajeKeyTyped
         // TODO add your handling code here:
-        FrmConfiguracion frmConfiguracion = new FrmConfiguracion(usuarioConsultado);
-        frmConfiguracion.setVisible(true);
-        this.dispose();
-
-    }//GEN-LAST:event_btnConfiguracionActionPerformed
-
-    private void btnCrearChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearChatActionPerformed
-        // TODO add your handling code here:
-        FrmCrearChat frmCrearChat = new FrmCrearChat(usuarioConsultado);
-        frmCrearChat.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnCrearChatActionPerformed
+    }//GEN-LAST:event_txtMensajeKeyTyped
 
 //    /**
 //     * @param args the command line arguments
@@ -252,14 +244,14 @@ public class FrmChats extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnConfiguracion;
-    private javax.swing.JButton btnCrearChat;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList<String> listChats;
-    private javax.swing.JScrollPane scrollChat;
+    private javax.swing.JScrollPane scrollMensaje;
+    private javax.swing.JTextField txtMensaje;
+    private javax.swing.JTextArea txtaMensaje;
     // End of variables declaration//GEN-END:variables
 }

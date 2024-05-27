@@ -58,7 +58,7 @@ public class MensajeDAO implements IMensajeDAO {
 
             conn.setString(1, mensaje.getTexto());
             conn.setString(2, mensaje.getFechaHoraRegistro());
-            conn.setString(3, mensaje.getImagenMensaje());
+            conn.setBytes(3, mensaje.getImagenMensaje());
             conn.setInt(4, mensaje.getIdUsuario());
             conn.setInt(5, mensaje.getIdChat());
 
@@ -159,7 +159,7 @@ public class MensajeDAO implements IMensajeDAO {
                 int idMensaje = rs.getInt("ID_MENSAJE");
                 String mensajeTexto = rs.getString("TEXTO");
                 String fechaHoraRegistro = rs.getString("FECHA_HORA_REGISTRO");
-                String imagenMensaje = rs.getString("IMAGEN_MENSAJE");
+                byte[] imagenMensaje = rs.getBytes("IMAGEN_MENSAJE");
 
                 Mensaje mensaje = new Mensaje(idMensaje, mensajeTexto, fechaHoraRegistro, imagenMensaje);
                 mensajes.add(mensaje);

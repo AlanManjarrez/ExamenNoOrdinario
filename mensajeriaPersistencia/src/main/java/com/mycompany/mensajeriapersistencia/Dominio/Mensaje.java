@@ -22,7 +22,7 @@ public class Mensaje {
     private int idMensaje;
     private String texto;
     private String fechaHoraRegistro;
-    private String imagenMensaje;
+    private byte[] imagenMensaje;
     private int idUsuario;
     private int idChat;
 
@@ -43,7 +43,7 @@ public class Mensaje {
      * @param idUsuario el identificador del usuario que envió el mensaje
      * @param idChat el identificador del chat al que pertenece el mensaje
      */
-    public Mensaje(String texto, String fechaHoraRegistro, String imagenMensaje, int idUsuario, int idChat) {
+    public Mensaje(String texto, String fechaHoraRegistro, byte[] imagenMensaje, int idUsuario, int idChat) {
         this.texto = texto;
         this.fechaHoraRegistro = fechaHoraRegistro;
         this.imagenMensaje = imagenMensaje;
@@ -63,7 +63,7 @@ public class Mensaje {
      * @param idUsuario el identificador del usuario que envió el mensaje
      * @param idChat el identificador del chat al que pertenece el mensaje
      */
-    public Mensaje(int idMensaje, String texto, String fechaHoraRegistro, String imagenMensaje, int idUsuario, int idChat) {
+    public Mensaje(int idMensaje, String texto, String fechaHoraRegistro, byte[]  imagenMensaje, int idUsuario, int idChat) {
         this.idMensaje = idMensaje;
         this.texto = texto;
         this.fechaHoraRegistro = fechaHoraRegistro;
@@ -93,7 +93,7 @@ public class Mensaje {
      * @param fechaHoraRegistro la fecha y hora de registro del mensaje
      * @param imagenMensaje la URL de una imagen asociada al mensaje
      */
-    public Mensaje(int idMensaje, String texto, String fechaHoraRegistro, String imagenMensaje) {
+    public Mensaje(int idMensaje, String texto, String fechaHoraRegistro, byte[]  imagenMensaje) {
         this.idMensaje = idMensaje;
         this.texto = texto;
         this.fechaHoraRegistro = fechaHoraRegistro;
@@ -159,7 +159,7 @@ public class Mensaje {
      *
      * @return la URL de la imagen asociada al mensaje
      */
-    public String getImagenMensaje() {
+    public byte[]  getImagenMensaje() {
         return imagenMensaje;
     }
 
@@ -168,7 +168,7 @@ public class Mensaje {
      *
      * @param imagenMensaje la nueva URL de la imagen asociada al mensaje
      */
-    public void setImagenMensaje(String imagenMensaje) {
+    public void setImagenMensaje(byte[] imagenMensaje) {
         this.imagenMensaje = imagenMensaje;
     }
 
