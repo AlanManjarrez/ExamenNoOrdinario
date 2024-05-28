@@ -261,8 +261,8 @@ public class FrmRegistroUsuario extends javax.swing.JFrame {
         String contrasena = String.valueOf(pswContrasena.getPassword());
         String confirmarContrasena = String.valueOf(pswConfirmarContrasena.getPassword());
         String fechaNacimiento = dpFechaNacimiento.getText();
-         SimpleDateFormat inputFormat = new SimpleDateFormat("MMM d, yyyy", Locale.ENGLISH);
-
+        SimpleDateFormat inputFormat = new SimpleDateFormat("d 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
+        
         SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
